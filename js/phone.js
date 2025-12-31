@@ -1,5 +1,5 @@
 /* =========================================================
-   PHONE.JS — VERSION SAINE (COPIE DU PC)
+   PHONE.JS — VERSION STABLE
 ========================================================= */
 
 const phoneOverlay = document.getElementById("phone");
@@ -7,29 +7,35 @@ const phoneWindow  = document.getElementById("phoneWindow");
 const phoneBar     = document.getElementById("phoneBar");
 const phoneTitle   = document.getElementById("phoneTitle");
 const phoneContent = document.getElementById("phoneContent");
+function isMobile(){
+  return window.matchMedia("(max-width: 768px)").matches;
+}
 
-/* DATA */
+
+/* =========================================================
+   DATA
+========================================================= */
 const contact = {
   mobile: "+33 7 68 07 00 76",
   email: "kassiouiadam@gmail.com",
-  linkedin: "https://linkedin.com/in/adam"
+  linkedin: "https://linkedin.com/in/adam",
+  github: "https://github.com/adam"
 };
 
 /* =========================================================
-   OPEN PHONE (APPELÉ DEPUIS main.js)
+   OPEN PHONE
 ========================================================= */
 function openPhone() {
-
   phoneOverlay.classList.add("active");
   phoneWindow.style.display = "block";
-  showMenu();
 
+  // centré (desktop)
   phoneWindow.style.left =
     (innerWidth - phoneWindow.offsetWidth) / 2 + "px";
   phoneWindow.style.top =
     (innerHeight - phoneWindow.offsetHeight) / 2 + "px";
 
-  showContacts();
+  showMenu();
 }
 
 /* =========================================================
@@ -41,12 +47,32 @@ function closePhone() {
 }
 
 /* =========================================================
-   SCREENS
+   MENU PRINCIPAL
+========================================================= */
+function showMenu(){
+  phoneTitle.textContent = "MENU";
+  phoneContent.innerHTML = `
+    <div class="phone-line" onclick="showContacts()">> CONTACTS</div>
+    <div class="phone-line phone-about">> ABOUT ME</div>
+  `;
+
+  // 🔥 on reconnecte le clic proprement
+  const aboutBtn = phoneContent.querySelector(".phone-about");
+  if (aboutBtn) {
+    aboutBtn.addEventListener("click", showAbout);
+  }
+}
+
+
+/* =========================================================
+   CONTACTS
 ========================================================= */
 function showContacts() {
   phoneTitle.textContent = "CONTACTS";
   phoneContent.innerHTML = `
     <div class="phone-line" id="adamBtn">> Adam</div>
+    <br>
+    <span class="phone-line" onclick="showMenu()">< Retour</span>
   `;
 
   document.getElementById("adamBtn").onclick = showAdam;
@@ -64,7 +90,8 @@ function showAdam() {
     <div class="phone-line" id="linkedinBtn">> LinkedIn</div>
     <div class="phone-detail" id="linkedinDetail">Voir le profil</div>
 
-    <div class="phone-line" id="backBtn">< Retour</div>
+    <br>
+    <span class="phone-line" onclick="showContacts()">< Retour</span>
   `;
 
   toggle("mobileBtn", "mobileDetail", () =>
@@ -78,10 +105,53 @@ function showAdam() {
   toggle("linkedinBtn", "linkedinDetail", () =>
     window.open(contact.linkedin, "_blank")
   );
-
-  document.getElementById("backBtn").onclick = showContacts;
 }
 
+/* =========================================================
+   ABOUT ME (LONG + SCROLLABLE)
+========================================================= */
+function showAbout(){
+  phoneTitle.textContent = "ABOUT ME";
+  phoneContent.innerHTML = `
+    <div class="phone-detail" style="display:block">
+
+      <strong>Adam Kassioui</strong><br><br>
+
+      Développeur créatif spécialisé en interfaces interactives
+      et web expérimental.<br><br>
+
+      <strong>Liens</strong><br>
+      • <a href="${contact.linkedin}" target="_blank">LinkedIn</a><br>
+      • <a href="${contact.github}" target="_blank">GitHub</a><br>
+      • <a href="assets/cv.pdf" target="_blank">CV (PDF)</a><br><br>
+
+      <strong>Formation</strong><br>
+      Formé aux règles Opquast.<br>
+      Certification prévue en mars 2026.<br><br>
+
+      <strong>Témoignages</strong><br>
+      • Maître de stage — projet web professionnel<br>
+      • Camarade — projets scolaires collaboratifs<br>
+      • Collègue — travail en équipe créative<br><br>
+
+      <strong>Projets</strong><br>
+      Projet Alpha — 2024<br>
+      HTML / CSS / JS<br>
+      Projet personnel<br><br>
+
+      Projet Beta — 2025<br>
+      Web interactif<br>
+      Projet scolaire<br><br>
+
+      <span class="phone-line" onclick="showMenu()">< Retour</span>
+
+    </div>
+  `;
+}
+
+/* =========================================================
+   TOGGLE UTILS
+========================================================= */
 function toggle(btnId, detailId, action) {
   const btn = document.getElementById(btnId);
   const detail = document.getElementById(detailId);
@@ -95,7 +165,7 @@ function toggle(btnId, detailId, action) {
 }
 
 /* =========================================================
-   DRAG (IDENTIQUE AU PC)
+   DRAG (DESKTOP UNIQUEMENT)
 ========================================================= */
 let dragging = false;
 let ox = 0, oy = 0;
@@ -113,22 +183,3 @@ document.addEventListener("mousemove", e => {
 });
 
 document.addEventListener("mouseup", () => dragging = false);
-function showMenu(){
-  phoneTitle.textContent = "MENU";
-  phoneContent.innerHTML = `
-    <div class="phone-line" onclick="showContacts()">> Contact</div>
-    <div class="phone-line" onclick="showAbout()">> À propos</div>
-  `;
-}
-
-function showAbout(){
-  phoneTitle.textContent = "À propos de moi";
-  phoneContent.innerHTML = `
-    <div class="phone-detail" style="display:block">
-      Développeur créatif.<br>
-      Interfaces interactives.<br>
-      Web expérimental.<br><br>
-      <span class="phone-line" onclick="showMenu()">< Retour</span>
-    </div>
-  `;
-}

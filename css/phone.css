@@ -1,5 +1,6 @@
-
-/* ===== OVERLAYS ===== */
+/* =========================================================
+   OVERLAYS
+========================================================= */
 .overlay {
   position: fixed;
   inset: 0;
@@ -22,8 +23,9 @@
   pointer-events: auto;
 }
 
-
-/* ===== PHONE WINDOW ===== */
+/* =========================================================
+   PHONE WINDOW (DESKTOP PAR DÉFAUT)
+========================================================= */
 .phone-window{
   position:absolute;
   width:420px;
@@ -35,7 +37,9 @@
   font-family:'Press Start 2P', monospace;
 }
 
-/* BAR */
+/* =========================================================
+   BAR
+========================================================= */
 .phone-bar{
   height:32px;
   background:#063;
@@ -59,12 +63,15 @@
   font-size:10px;
 }
 
-/* SCREEN */
+/* =========================================================
+   SCREEN (DESKTOP)
+========================================================= */
 .phone-screen{
   padding:16px;
   height:calc(100% - 32px);
   box-sizing:border-box;
   font-size:12px;
+  overflow:hidden; /* ❌ pas de scroll sur desktop */
 }
 
 .phone-title{
@@ -72,6 +79,9 @@
   margin-bottom:14px;
 }
 
+/* =========================================================
+   LIGNES
+========================================================= */
 .phone-line{
   padding:6px 4px;
   cursor:pointer;
@@ -94,9 +104,83 @@
   color:#fff;
   text-decoration:underline;
 }
-/* Désactiver la sélection de texte */
-* { 
-  user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
+
+/* =========================================================
+   DÉSACTIVER LA SÉLECTION DE TEXTE
+========================================================= */
+*{
+  user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+}
+
+/* =========================================================
+   📱 PHONE — LISIBILITÉ MOBILE
+========================================================= */
+@media (max-width: 768px){
+
+  /* 📱 fenêtre plus courte (pas géante) */
+  .phone-window{
+    width:92vw;
+    max-width:420px;
+    height:65vh;
+    max-height:65vh;
+    left:4vw !important;
+    top:12vh !important;
+  }
+
+  /* 📜 scroll vertical UNIQUEMENT sur mobile */
+  .phone-screen{
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:18px;
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  .phone-title{
+    font-size:15px;
+    margin-bottom:16px;
+  }
+
+  .phone-line{
+    font-size:13px;
+    padding:10px 6px;
+  }
+
+  /* ABOUT ME : contenu toujours visible */
+  .phone-detail{
+    display:block;
+    font-size:13px;
+    margin-left:0;
+    padding:10px 8px;
+    cursor:default;
+  }
+
+  /* Liens lisibles */
+  .phone-detail a{
+    color:#7dff6a;
+    text-decoration:underline;
+  }
+
+  /* Bouton retour bien visible */
+  .phone-line:last-child{
+    margin-top:18px;
+    display:block;
+  }
+}
+/* =========================================================
+   DESKTOP : ABOUT ME DÉSACTIVÉ
+========================================================= */
+@media (min-width: 769px){
+
+  /* bouton ABOUT ME invisible */
+  .phone-about{
+    display: none !important;
+  }
+
+  /* sécurité : si ABOUT ME est déjà ouvert */
+  .phone-detail{
+    display: none !important;
+  }
 }

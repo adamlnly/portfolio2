@@ -1,4 +1,3 @@
-
 /* ===== RESET ===== */
 html, body {
   margin: 0;
@@ -94,9 +93,8 @@ html, body {
 .hotspot {
   position: absolute;
   z-index: 9;
-
-  background: transparent; /* invisible sans opacity */
-  pointer-events: none;    /* inactifs avant la lumière */
+  background: transparent;
+  pointer-events: none;
   cursor: pointer;
 }
 
@@ -110,18 +108,16 @@ html, body {
   content: "";
   position: absolute;
 
-  /* centrage */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
 
-  /* taille medium */
-  width: 110%;
+  width: 60%;
   height: 110%;
 
   z-index: 100;
 
-  background: url("/assets/gifs/undertale.gif") center / contain no-repeat;
+  background: url("/assets/gifs/UNDERTALE2.gif") center / contain no-repeat;
 
   opacity: 1;
 
@@ -132,14 +128,11 @@ html, body {
   pointer-events: none;
 }
 
-/* ↓ hover : descend doucement + réduit plus */
+/* hover */
 .light-on .hotspot:hover::after {
   opacity: 0.4;
-
-  /* descend légèrement + réduction plus visible */
   transform: translate(-50%, -44%) scale(0.88);
 }
-
 
 /* ===== OVERLAYS ===== */
 .overlay {
@@ -147,8 +140,6 @@ html, body {
   inset: 0;
   z-index: 20;
   display: none;
-
-  /* 🔥 L’overlay NE BLOQUE PAS LES CLICS */
   pointer-events: none;
 }
 
@@ -156,38 +147,14 @@ html, body {
   display: block;
 }
 
-/* 🔥 SEULEMENT LES FENÊTRES SONT INTERACTIVES */
+/* =========================================================
+   🔧 CORRECTION CRITIQUE ICI
+   → la fenêtre sort du contexte scene / overlay
+   → plus d’effet “format téléphone”
+========================================================= */
 .overlay .window,
 .overlay .phone-window {
-  position: absolute;
+  position: fixed;       /* ⬅️ AVANT : absolute */
   z-index: 21;
   pointer-events: auto;
-}
-/* ===== MOBILE CLEAN ===== */
-@media (max-width: 768px) {
-
-  /* on garde la logique JS intacte */
-  body {
-    background: black;
-  }
-
-  /* lampe plus accessible */
-  .lamp {
-    top: 18%;
-    width: 160px;
-  }
-
-  /* citation visible AVANT clic */
-  .quote {
-    top: 62%;
-    font-size: 14px;
-    opacity: 1;
-  }
-
-  /* on enlève juste la lumière CURSEUR */
-  .cursor-light {
-    display: none;
-  }
-
-  /* on NE TOUCHE PAS à #mainLight */
 }

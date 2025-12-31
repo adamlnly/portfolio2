@@ -1,6 +1,13 @@
-/* =========================================================
-   WINDOW
-========================================================= */
+
+body{
+  margin:0;
+  height:100vh;
+  background:#1e1e1e;
+  font-family:'Press Start 2P', cursive;
+  overflow:hidden;
+}
+
+/* WINDOW */
 .window{
   position:absolute;
   width:60vw;
@@ -14,9 +21,18 @@
   overflow:hidden;
 }
 
-/* =========================================================
-   TOP BAR
-========================================================= */
+/* 📱 MOBILE : petit carré centré (pas full screen) */
+@media (max-width:768px){
+  .window{
+    width:90vw;
+    height:90vw;
+    max-width:520px;
+    max-height:520px;
+    min-width:unset;
+    min-height:unset;
+  }
+}
+
 .bar{
   height:34px;
   background:linear-gradient(#0a64ad,#084d8c);
@@ -25,7 +41,7 @@
   align-items:center;
   justify-content:space-between;
   padding:0 10px;
-  font-size:10px;
+  font-size:15px;
   cursor:move;
 }
 
@@ -39,19 +55,14 @@
   cursor:pointer;
 }
 
-/* =========================================================
-   SCREEN
-========================================================= */
+/* SCREEN */
 .screen{
   position:relative;
   height:calc(100% - 34px);
-  overflow-y:auto;
-  overflow-x:hidden;
+  overflow:hidden;
 }
 
-/* =========================================================
-   LOADING
-========================================================= */
+/* LOADING */
 .loading{
   position:absolute;
   inset:0;
@@ -62,33 +73,12 @@
   justify-content:center;
 }
 
-.loading-logo{
-  width:60%;
-  max-width:320px;
-  margin-bottom:20px;
-}
+.loading-logo{width:60%;max-width:320px;margin-bottom:20px}
+.loading-title{color:#fff;font-size:16px;margin-bottom:18px}
+.loading-bar{width:60%;height:14px;border:2px solid #fff}
+.loading-fill{height:100%;width:0;background:#fff}
 
-.loading-title{
-  color:#fff;
-  font-size:16px;
-  margin-bottom:18px;
-}
-
-.loading-bar{
-  width:60%;
-  height:14px;
-  border:2px solid #fff;
-}
-
-.loading-fill{
-  height:100%;
-  width:0;
-  background:#fff;
-}
-
-/* =========================================================
-   DESKTOP
-========================================================= */
+/* DESKTOP */
 .desktop{
   position:absolute;
   inset:0;
@@ -104,9 +94,7 @@
   pointer-events:none;
 }
 
-/* =========================================================
-   ICONS
-========================================================= */
+/* ICONS */
 .icon{
   position:absolute;
   width:120px;
@@ -117,13 +105,10 @@
   color:#fff;
   cursor:pointer;
   user-select:none;
+  touch-action:none;
 }
 
-.icon svg{
-  width:64px;
-  height:64px;
-  margin-bottom:6px;
-}
+.icon svg{width:64px;height:64px;margin-bottom:6px}
 
 .icon-label{
   width:140px;
@@ -133,15 +118,14 @@
   line-height:1.25;
 }
 
-/* =========================================================
-   WINDOWS (DOSSIERS + TEXTE)
-========================================================= */
+/* WINDOWS (DOSSIER + TEXTE) */
 .folder-window{
   position:absolute;
   width:360px;
   background:#111;
   border:2px solid #888;
   display:none;
+  touch-action:none;
 }
 
 .folder-bar{
@@ -153,6 +137,7 @@
   align-items:center;
   padding:0 6px;
   cursor:move;
+  touch-action:none;
 }
 
 .folder-close{
@@ -172,75 +157,67 @@
   font-size:9px;
   color:#fff;
   cursor:pointer;
+  user-select:none;
+  touch-action:manipulation;
 }
+.file:hover{background:#1e90ff}
 
-.file:hover{
-  background:#1e90ff;
-}
-
-.file svg{
-  width:16px;
-  height:16px;
-}
-
-/* =========================================================
-   TEXT VIEWER
-========================================================= */
+/* TEXT VIEWER (DESKTOP : inchangé) */
 .text-content{
   padding:12px;
-  font-size:10px;
+  font-size:15px;
   color:#fff;
-  white-space:pre-wrap;
+  white-space:pre-wrap;   /* 🔥 on garde les blancs */
   line-height:1.5;
   max-height:300px;
   overflow:auto;
 }
 
-/* =========================================================
-   RESIZE HANDLES
-========================================================= */
+/* =====================================================
+   📱 PATCH MOBILE UNIQUEMENT
+===================================================== */
+@media (max-width:768px){
+
+  /* 🔒 largeur BLOQUÉE du viewer */
+  #text-viewer{
+    width:300px;
+    max-width:300px;
+    min-width:300px;
+    height:auto;          /* hauteur libre */
+    max-height:70%;       /* jamais hors écran */
+    overflow:hidden;
+  }
+
+  /* 🟡 barre jaune : jamais trop longue */
+  .folder-bar{
+    width:100%;
+    box-sizing:border-box;
+  }
+
+  .folder-bar span{
+    max-width:calc(100% - 24px);
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+
+  /* 📝 texte : vertical only */
+  .text-content{
+    font-size:8px;
+    line-height:1.4;
+    white-space:pre-wrap;     /* on garde les retours */
+    overflow-x:hidden;        /* ❌ jamais horizontal */
+    overflow-y:auto;          /* ✅ vertical */
+    max-height:180px;
+  }
+
+  /* ❌ resize sur mobile */
+  .resizer{display:none}
+}
+
+/* RESIZE (DESKTOP) */
 .resizer{position:absolute}
-.resizer.right{
-  top:0;
-  right:-4px;
-  width:8px;
-  height:100%;
-  cursor:ew-resize;
-}
-.resizer.bottom{
-  bottom:-4px;
-  left:0;
-  width:100%;
-  height:8px;
-  cursor:ns-resize;
-}
-.resizer.corner{
-  right:-6px;
-  bottom:-6px;
-  width:14px;
-  height:14px;
-  cursor:nwse-resize;
-}
+.resizer.right{top:0;right:-4px;width:8px;height:100%;cursor:ew-resize}
+.resizer.bottom{bottom:-4px;left:0;width:100%;height:8px;cursor:ns-resize}
+.resizer.corner{right:-6px;bottom:-6px;width:14px;height:14px;cursor:nwse-resize}
 
-/* =========================================================
-   DÉSACTIVER LA SÉLECTION DE TEXTE
-========================================================= */
-*{
-  user-select:none;
-  -webkit-user-select:none;
-  -ms-user-select:none;
-}
-
-/* =========================================================
-   MOBILE — AUCUN CHANGEMENT VISUEL
-   (JS gère le blocage du drag / resize)
-========================================================= */
-@media (max-width: 768px){
-  .resizer{
-    display:none; /* pas de resize visuel sur mobile */
-  }
-
-  .bar{
-    cursor:default; /* pas de drag visuel */
-  }
-}
