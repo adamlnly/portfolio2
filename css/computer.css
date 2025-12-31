@@ -1,0 +1,246 @@
+/* =========================================================
+   WINDOW
+========================================================= */
+.window{
+  position:absolute;
+  width:60vw;
+  height:80vh;
+  min-width:520px;
+  min-height:420px;
+  background:#000;
+  border:2px solid #888;
+  border-radius:12px;
+  display:none;
+  overflow:hidden;
+}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+.bar{
+  height:34px;
+  background:linear-gradient(#0a64ad,#084d8c);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  font-size:10px;
+  cursor:move;
+}
+
+.close{
+  width:18px;
+  height:18px;
+  background:#cc0000;
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+}
+
+/* =========================================================
+   SCREEN
+========================================================= */
+.screen{
+  position:relative;
+  height:calc(100% - 34px);
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+.loading{
+  position:absolute;
+  inset:0;
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.loading-logo{
+  width:60%;
+  max-width:320px;
+  margin-bottom:20px;
+}
+
+.loading-title{
+  color:#fff;
+  font-size:16px;
+  margin-bottom:18px;
+}
+
+.loading-bar{
+  width:60%;
+  height:14px;
+  border:2px solid #fff;
+}
+
+.loading-fill{
+  height:100%;
+  width:0;
+  background:#fff;
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+.desktop{
+  position:absolute;
+  inset:0;
+  display:none;
+}
+
+.desktop-bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none;
+}
+
+/* =========================================================
+   ICONS
+========================================================= */
+.icon{
+  position:absolute;
+  width:120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:10px;
+  color:#fff;
+  cursor:pointer;
+  user-select:none;
+}
+
+.icon svg{
+  width:64px;
+  height:64px;
+  margin-bottom:6px;
+}
+
+.icon-label{
+  width:140px;
+  background:rgba(0,0,0,.65);
+  padding:6px;
+  text-align:center;
+  line-height:1.25;
+}
+
+/* =========================================================
+   WINDOWS (DOSSIERS + TEXTE)
+========================================================= */
+.folder-window{
+  position:absolute;
+  width:360px;
+  background:#111;
+  border:2px solid #888;
+  display:none;
+}
+
+.folder-bar{
+  height:26px;
+  background:#e3c74c;
+  font-size:9px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 6px;
+  cursor:move;
+}
+
+.folder-close{
+  background:#cc0000;
+  border:none;
+  color:#fff;
+  width:18px;
+  height:18px;
+  cursor:pointer;
+}
+
+.file{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px;
+  font-size:9px;
+  color:#fff;
+  cursor:pointer;
+}
+
+.file:hover{
+  background:#1e90ff;
+}
+
+.file svg{
+  width:16px;
+  height:16px;
+}
+
+/* =========================================================
+   TEXT VIEWER
+========================================================= */
+.text-content{
+  padding:12px;
+  font-size:10px;
+  color:#fff;
+  white-space:pre-wrap;
+  line-height:1.5;
+  max-height:300px;
+  overflow:auto;
+}
+
+/* =========================================================
+   RESIZE HANDLES
+========================================================= */
+.resizer{position:absolute}
+.resizer.right{
+  top:0;
+  right:-4px;
+  width:8px;
+  height:100%;
+  cursor:ew-resize;
+}
+.resizer.bottom{
+  bottom:-4px;
+  left:0;
+  width:100%;
+  height:8px;
+  cursor:ns-resize;
+}
+.resizer.corner{
+  right:-6px;
+  bottom:-6px;
+  width:14px;
+  height:14px;
+  cursor:nwse-resize;
+}
+
+/* =========================================================
+   DÉSACTIVER LA SÉLECTION DE TEXTE
+========================================================= */
+*{
+  user-select:none;
+  -webkit-user-select:none;
+  -ms-user-select:none;
+}
+
+/* =========================================================
+   MOBILE — AUCUN CHANGEMENT VISUEL
+   (JS gère le blocage du drag / resize)
+========================================================= */
+@media (max-width: 768px){
+  .resizer{
+    display:none; /* pas de resize visuel sur mobile */
+  }
+
+  .bar{
+    cursor:default; /* pas de drag visuel */
+  }
+}

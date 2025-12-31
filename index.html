@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Portfolio — Light</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/scene.css">
+  <link rel="stylesheet" href="css/phone.css">
+  <link rel="stylesheet" href="css/computer.css">
+</head>
+
+<body>
+
+<div class="scene" id="scene">
+
+  <!-- BACKGROUNDS -->
+  <div class="bg" id="bgNight" style="background-image:url('assets/images/portfolio_nuit1.png')"></div>
+  <div class="bg" id="bgDay"   style="background-image:url('assets/images/portfolio_jour.png')"></div>
+
+  <!-- LAMPE -->
+  <img src="assets/images/lampe_OFF.png" class="lamp" id="lamp">
+
+  <!-- TEXTE -->
+  <div class="quote" id="quote">
+    <span>Sometimes</span>
+    <span>you</span>
+    <span>just</span>
+    <span>need</span>
+    <span>to</span><br>
+    <span>turn</span>
+    <span>the</span>
+    <span>light</span>
+    <span>on.</span>
+  </div>
+
+  <!-- HOTSPOTS -->
+  <div class="hotspot" data-label="PC"
+       data-x="760" data-y="500" data-w="270" data-h="200"></div>
+
+  <div class="hotspot" data-label="Téléphone"
+       data-x="1080" data-y="470" data-w="100" data-h="200"></div>
+
+  <div class="hotspot" data-label="Pancarte"
+       data-x="1200" data-y="300" data-w="370" data-h="300"></div>
+
+  <!-- LUMIÈRES -->
+  <div class="light" id="mainLight"></div>
+  <div class="cursor-light" id="cursorLight"></div>
+
+</div>
+<!-- ===== FIN SCENE ===== -->
+
+
+<!-- ===== PC ===== -->
+<div id="computer" class="overlay">
+
+  <div class="window" id="win">
+
+    <div class="bar" id="winBar">
+      <span>Adams Project</span>
+    <button class="close" id="closeWin">✕</button>
+    </div>
+
+    <div class="screen">
+
+      <!-- LOADING -->
+      <div class="loading" id="loading">
+        <img src="assets/images/logosansfondxp.png" class="loading-logo">
+        <div class="loading-title">Adams Project</div>
+        <div class="loading-bar">
+          <div class="loading-fill" id="fill"></div>
+        </div>
+      </div>
+
+      <!-- DESKTOP -->
+      <div class="desktop" id="desktop">
+        <img src="assets/images/pageproject.png" class="desktop-bg">
+
+        <!-- ICONS -->
+        <div class="icon folder" data-folder="dev" style="left:20px;top:20px">
+          <svg viewBox="0 0 32 32">
+            <rect x="4" y="6" width="24" height="20" fill="#f5d76e"/>
+            <rect x="4" y="4" width="14" height="6" fill="#e8c547"/>
+          </svg>
+          <div class="icon-label">Projet Développement</div>
+        </div>
+
+        <div class="icon folder" data-folder="crea" style="left:20px;top:140px">
+          <svg viewBox="0 0 32 32">
+            <rect x="4" y="6" width="24" height="20" fill="#f5d76e"/>
+            <rect x="4" y="4" width="14" height="6" fill="#e8c547"/>
+          </svg>
+          <div class="icon-label">Projet Créatif</div>
+        </div>
+
+        <!-- DOSSIERS -->
+        <div class="folder-window" id="folder-dev" style="left:160px;top:40px">
+          <div class="folder-bar">
+            Projet Développement
+            <button class="folder-close">✕</button>
+          </div>
+
+          <div class="file" data-title="Projet Alpha" data-text="Ceci est le projet Alpha.">📄 Projet Alpha</div>
+          <div class="file" data-title="Projet Beta" data-text="Projet Beta description longue.">📄 Projet Beta</div>
+        </div>
+
+        <div class="folder-window" id="folder-crea" style="left:200px;top:120px">
+          <div class="folder-bar">
+            Projet Créatif
+            <button class="folder-close">✕</button>
+          </div>
+
+          <div class="file" data-title="Concept 1" data-text="Concept créatif numéro 1.">🎨 Concept 1</div>
+          <div class="file" data-title="Concept 2" data-text="Concept créatif numéro 2.">🎨 Concept 2</div>
+        </div>
+
+        <!-- TEXTE -->
+        <div class="folder-window" id="text-viewer" style="left:300px;top:200px;width:420px">
+          <div class="folder-bar">
+            <span id="text-title">Fichier</span>
+            <button class="folder-close" id="close-text">✕</button>
+          </div>
+          <div class="text-content" id="text-content"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="resizer right"></div>
+    <div class="resizer bottom"></div>
+    <div class="resizer corner"></div>
+
+  </div>
+</div>
+<!-- ===== FIN PC ===== -->
+
+
+<!-- PHONE OVERLAY -->
+<div id="phone" class="overlay">
+
+  <div class="phone-window" id="phoneWindow">
+
+    <div class="phone-bar" id="phoneBar">
+      <span>PHONE</span>
+      <button class="phone-close" onclick="closePhone()">✕</button>
+    </div>
+
+    <div class="phone-screen">
+      <div class="phone-title" id="phoneTitle">CONTACTS</div>
+      <div id="phoneContent"></div>
+    </div>
+
+  </div>
+
+</div>
+<!-- FIN PHONE OVERLAY -->
+
+
+<!-- PANNEAU -->
+<div id="sign" class="overlay"></div>
+
+<script src="js/main.js" defer></script>
+<script src="js/computer.js" defer></script>
+<script src="js/phone.js" defer></script>
+</body>
+</html>
