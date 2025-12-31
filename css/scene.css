@@ -117,7 +117,7 @@ html, body {
 
   z-index: 100;
 
-  background: url("assets/gifs/UNDERTALE2.gif") center / contain no-repeat;
+  background: url("../assets/gifs/UNDERTALE2.gif") center / contain no-repeat;
 
   opacity: 1;
 
@@ -158,4 +158,5 @@ html, body {
   z-index: 21;
   pointer-events: auto;
 }
+
 
