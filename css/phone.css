@@ -148,7 +148,7 @@
     padding:10px 6px;
   }
 
-  /* ABOUT ME : contenu toujours visible */
+  /* 📱 MOBILE : tout le contenu est visible */
   .phone-detail{
     display:block;
     font-size:13px;
@@ -169,18 +169,17 @@
     display:block;
   }
 }
+
 /* =========================================================
-   DESKTOP : ABOUT ME DÉSACTIVÉ
+   🖥 DESKTOP : ABOUT ME MASQUÉ UNIQUEMENT
 ========================================================= */
 @media (min-width: 769px){
 
-  /* bouton ABOUT ME invisible */
+  /* ❌ on cache SEULEMENT le bouton ABOUT ME */
   .phone-about{
-    display: none !important;
+    display:none !important;
   }
 
-  /* sécurité : si ABOUT ME est déjà ouvert */
-  .phone-detail{
-    display: none !important;
-  }
+  /* ✅ on NE TOUCHE PAS à .phone-detail ici
+     → le JS gère le déroulement */
 }
