@@ -221,3 +221,17 @@ body{
 .resizer.bottom{bottom:-4px;left:0;width:100%;height:8px;cursor:ns-resize}
 .resizer.corner{right:-6px;bottom:-6px;width:14px;height:14px;cursor:nwse-resize}
 
+/* 📱 DOSSIERS : largeur adaptée au mobile */
+.folder-window {
+  width: calc(100% - 16px);   /* jamais plus large que la fenêtre */
+  max-width: 320px;           /* limite propre */
+  box-sizing: border-box;
+}
+
+/* 🟡 BARRE JAUNE : suit exactement la fenêtre */
+.folder-bar {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 6px;
+  padding-right: 6px;
+}

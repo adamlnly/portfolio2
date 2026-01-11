@@ -14,8 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const quote = document.getElementById("quote");
   const words = document.querySelectorAll(".quote span");
 
+  // 🔔 notification
+  const welcomeOverlay = document.getElementById("welcomeOverlay");
+  const welcomeClose = document.getElementById("welcomeClose");
+
   /* ================= HOTSPOTS SCALE ================= */
   function updateHotspots() {
+    if (!scene) return;
+
     const W = scene.clientWidth;
     const H = scene.clientHeight;
 
@@ -39,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ================= CURSOR LIGHT ================= */
   document.addEventListener("mousemove", e => {
-    if (revealed) return;
+    if (revealed || !cursorLight) return;
 
     cursorLight.style.setProperty("--x", e.clientX + "px");
     cursorLight.style.setProperty("--y", e.clientY + "px");
@@ -52,48 +58,110 @@ document.addEventListener("DOMContentLoaded", () => {
       word.style.opacity = d < 80 ? 0 : 1;
     });
   });
-/* =========================================================
-
 
   /* ================= LAMP ================= */
-  lamp.addEventListener("click", () => {
-    if (revealed) return;
-    revealed = true;
+  if (lamp) {
+    lamp.addEventListener("click", () => {
+      if (revealed) return;
+      revealed = true;
 
-    quote.style.opacity = 0;
-    cursorLight.style.opacity = 0;
+      if (quote) quote.style.opacity = 0;
+      if (cursorLight) cursorLight.style.opacity = 0;
 
-    lamp.src = "assets/images/lampe_ON.png";
-    mainLight.style.opacity = 1;
-    bgDay.style.opacity = 1;
+      lamp.src = "assets/images/lampe_ON.png";
+      if (mainLight) mainLight.style.opacity = 1;
+      if (bgDay) bgDay.style.opacity = 1;
 
-    document.body.classList.add("light-on");
+      // active la lumière (hotspots + notif via CSS)
+      document.body.classList.add("light-on");
+
+      // 🔔 affiche la notification
+      if (welcomeOverlay) {
+        welcomeOverlay.style.display = "block";
+      }
+    });
+  }
+
+  /* ================= CROIX NOTIFICATION ================= */
+  if (welcomeClose && welcomeOverlay) {
+    welcomeClose.addEventListener("click", (e) => {
+      e.stopPropagation();
+      welcomeOverlay.style.display = "none";
+    });
+  }
+
+  /* ================= HOTSPOTS ================= */
+  hotspots.forEach(h => {
+    h.addEventListener("click", () => {
+      if (!revealed) return;
+
+      // bloque les hotspots tant que la notif est visible
+      if (welcomeOverlay && welcomeOverlay.style.display === "block") return;
+
+      if (h.dataset.label === "PC") {
+        window.openComputer?.();
+      }
+
+      if (h.dataset.label === "Téléphone") {
+        window.openPhone?.();
+      }
+
+      if (h.dataset.label === "Pancarte") {
+        window.openSign?.();
+      }
+    });
   });
 
-hotspots.forEach(h => {
-  h.addEventListener("click", () => {
-    if (!revealed) return;
+});
 
-    if (h.dataset.label === "PC") {
-      openComputer();
-    }
+/* =========================================================
+   FORCE REFRESH SI CHANGEMENT DE DEVICE / TAILLE CRITIQUE
+========================================================= */
+(function () {
+  const KEY = "__layout_fixed__";
 
-    if (h.dataset.label === "Téléphone") {
-      openPhone();
-    }
+  const isMobileNow = () =>
+    window.matchMedia("(max-width:768px)").matches;
 
-    if (h.dataset.label === "Pancarte") {
-      openOverlay("sign");
+  const initialState = {
+    mobile: isMobileNow(),
+    w: window.innerWidth,
+    h: window.innerHeight
+  };
+
+  if (sessionStorage.getItem(KEY)) return;
+
+  function needsRefresh() {
+    const mobile = isMobileNow();
+    const dw = Math.abs(window.innerWidth - initialState.w);
+    const dh = Math.abs(window.innerHeight - initialState.h);
+
+    return (
+      mobile !== initialState.mobile ||
+      dw > 120 ||
+      dh > 120
+    );
+  }
+
+  window.addEventListener("resize", () => {
+    if (needsRefresh()) {
+      sessionStorage.setItem(KEY, "1");
+      location.reload();
     }
   });
-});
 
-/* ================= OVERLAYS ================= */
-function openOverlay(id) {
-  document.getElementById(id).classList.add("active");
-}
+  window.addEventListener("orientationchange", () => {
+    sessionStorage.setItem(KEY, "1");
+    location.reload();
+  });
+})();
+const welcomeClose = document.getElementById("welcomeClose");
 
-function closeOverlay(id) {
-  document.getElementById(id).classList.remove("active");
+if (welcomeClose) {
+  welcomeClose.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    // cache la notification sans toucher à la lumière
+    document.body.classList.add("welcome-hidden");
+  });
 }
-});

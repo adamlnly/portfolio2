@@ -34,13 +34,17 @@ html, body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: clamp(180px, 20vw, 320px);
+  width: 300px;
   image-rendering: pixelated;
   cursor: pointer;
   z-index: 5;
 }
 
-/* ===== TEXTE ===== */
+@media (max-width: 768px) {
+  .lamp { width: 180px; }
+}
+
+/* ===== TEXTE INTRO ===== */
 .quote {
   position: absolute;
   top: 50%;
@@ -98,43 +102,32 @@ html, body {
   cursor: pointer;
 }
 
-/* hotspots actifs quand la lumière est ON */
 .light-on .hotspot {
   pointer-events: auto;
 }
 
-/* ===== GIF UNDERTALE CENTRÉ ===== */
+/* ===== GIF UNDERTALE ===== */
 .light-on .hotspot::after {
   content: "";
   position: absolute;
-
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-
+  transform: translate(-50%, -50%);
   width: 60%;
   height: 110%;
-
   z-index: 100;
-
   background: url("../assets/gifs/UNDERTALE2.gif") center / contain no-repeat;
-
   opacity: 1;
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-
+  transition: opacity 0.25s ease, transform 0.35s ease;
   pointer-events: none;
 }
 
-/* hover */
 .light-on .hotspot:hover::after {
   opacity: 0.4;
   transform: translate(-50%, -44%) scale(0.88);
 }
 
-/* ===== OVERLAYS ===== */
+/* ===== OVERLAYS GÉNÉRAUX ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -147,16 +140,109 @@ html, body {
   display: block;
 }
 
-/* =========================================================
-   🔧 CORRECTION CRITIQUE ICI
-   → la fenêtre sort du contexte scene / overlay
-   → plus d’effet “format téléphone”
-========================================================= */
 .overlay .window,
 .overlay .phone-window {
-  position: fixed;       /* ⬅️ AVANT : absolute */
+  position: fixed;
   z-index: 21;
   pointer-events: auto;
 }
 
+/* =========================================================
+   🔔 NOTIFICATION — VERSION DÉFINITIVE (CENTRÉE)
+========================================================= */
 
+#welcomeOverlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.65);
+  z-index: 10000;
+
+  /* 🔥 FLEX CENTRAGE */
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: auto;
+}
+
+/* visible uniquement quand la lumière est allumée */
+.light-on #welcomeOverlay {
+  display: flex;
+}
+
+#welcomeBox {
+  position: relative;
+
+  width: 720px;
+  max-width: 90vw;
+  padding: 40px 48px;
+
+  background: white;
+  border: 4px solid #999;
+  border-radius: 8px;
+
+  font-size: 14px;
+  line-height: 2;
+  color: #000;
+}
+
+#welcomeClose {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+/* === FORCE CENTER WELCOME (NUCLEAR FIX) === */
+
+.light-on #welcomeOverlay {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+#welcomeOverlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.65) !important;
+  z-index: 10000 !important;
+}
+
+#welcomeBox {
+  position: relative !important;
+  margin: 0 !important;
+}
+/* cache la notif après fermeture */
+.welcome-hidden #welcomeOverlay {
+  display: none !important;
+}
+/* =========================================================
+   📱 RESPONSIVE — WELCOME (MOBILE)
+========================================================= */
+
+@media (max-width: 768px) {
+
+  #welcomeBox {
+    width: 90vw;
+    max-width: 90vw;
+
+    padding: 24px 20px;
+
+    font-size: 11px;
+    line-height: 1.9;
+  }
+
+  #welcomeClose {
+    top: 10px;
+    right: 10px;
+
+    width: 28px;
+    height: 28px;
+
+    font-size: 16px;
+  }
+}

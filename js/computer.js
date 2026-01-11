@@ -13,10 +13,15 @@
 ========================================================= */
 const win = document.getElementById("win");
 const desktop = document.getElementById("desktop");
+/* =========================
+   LOADING REFRESH SAFETY
+========================= */
+let isLoading = false;
 
 /* =========================================================
    MOBILE CHECK (TU M’AS DIT DE NE PAS TOUCHER AU RESPONSIVE)
 ========================================================= */
+
 function isMobile() {
   return window.matchMedia("(max-width:768px)").matches;
 }
@@ -153,6 +158,7 @@ function openComputer() {
   win.style.display = "block";
   win.style.left = (innerWidth - win.offsetWidth) / 2 + "px";
   win.style.top  = (innerHeight - win.offsetHeight) / 2 + "px";
+  isLoading = true; // 🔥 on marque que le chargement est actif
 
   // loading
   document.getElementById("fill").style.width = "0%";
@@ -168,6 +174,9 @@ function openComputer() {
       clearInterval(t);
       document.getElementById("loading").style.display = "none";
       desktop.style.display = "block";
+      isLoading = false; // 🔥 chargement terminé
+      
+
 
       if (isMobile()) {
         win.style.left = (innerWidth - win.offsetWidth) / 2 + "px";
@@ -520,3 +529,12 @@ if (computerEl) {
 document.getElementById("computer-icon")
   .addEventListener("click", openComputer);
 };
+/* =========================================================
+   FORCE REFRESH SI RELOAD PENDANT LE LOADING
+========================================================= */
+window.addEventListener("pageshow", (e) => {
+  // Si la page revient du cache ou a été reload pendant le loading
+  if (isLoading || e.persisted) {
+    location.reload();
+  }
+});

@@ -1,0 +1,152 @@
+/* =========================================================
+   OVERLAY (NON MODAL)
+========================================================= */
+#sign {
+  position: fixed;
+  inset: 0;
+  display: none;
+
+  background: transparent;   /* pas de gris */
+  pointer-events: none;      /* ⬅️ LA PAGE RESTE CLIQUABLE */
+
+  z-index: 9999;
+}
+
+#sign.active {
+  display: block;
+}
+
+/* =========================================================
+   WINDOW
+========================================================= */
+.sign-window {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  cursor: grab;
+  user-select: none;
+
+  pointer-events: auto;      /* ⬅️ SEUL LE PANNEAU CAPTE LA SOURIS */
+  z-index: 1;
+}
+
+.sign-window:active {
+  cursor: grabbing;
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
+.sign-window img {
+  display: block;
+  max-width: 85vw;
+  max-height: 85vh;
+
+  user-select: none;
+  -webkit-user-drag: none;
+
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   TITLE
+========================================================= */
+.sign-title {
+  position: absolute;
+  top: 11%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 20px;
+  color: #000;
+
+  z-index: 2;
+}
+
+/* =========================================================
+   TEXT
+========================================================= */
+.sign-text {
+  position: absolute;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 78%;
+  max-height: 48%;
+
+  font-size: 16px;
+  line-height: 1.9;
+  color: #000;
+
+  white-space: pre-line;
+  overflow-y: auto;
+
+  pointer-events: auto;
+  user-select: text;
+
+  z-index: 2;
+
+  /* SCROLLBAR INVISIBLE */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sign-text::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================================================
+   SCROLL INDICATOR
+========================================================= */
+.sign-scroll {
+  position: absolute;
+  bottom: 17%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 16px;
+  color: #000;
+
+  opacity: 1;
+  animation: bounce 1s infinite;
+
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 6px); }
+}
+
+/* =========================================================
+   CLOSE BUTTON (CARRÉ)
+========================================================= */
+.sign-close {
+  position: absolute;
+  top: 6%;
+  right: 6%;
+
+  width: 30px;
+  height: 30px;
+
+  background-color: red;
+  color: white;
+
+  border: none;
+  border-radius: 10%;
+
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: auto;
+  z-index: 3;
+}
