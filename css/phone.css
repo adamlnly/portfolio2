@@ -6,8 +6,6 @@
   inset: 0;
   z-index: 20;
   display: none;
-
-  /* 🔥 L’overlay NE BLOQUE PAS LES CLICS */
   pointer-events: none;
 }
 
@@ -15,7 +13,6 @@
   display: block;
 }
 
-/* 🔥 SEULEMENT LES FENÊTRES SONT INTERACTIVES */
 .overlay .window,
 .overlay .phone-window {
   position: absolute;
@@ -24,7 +21,7 @@
 }
 
 /* =========================================================
-   PHONE WINDOW (DESKTOP PAR DÉFAUT)
+   PHONE WINDOW
 ========================================================= */
 .phone-window{
   position:absolute;
@@ -64,14 +61,14 @@
 }
 
 /* =========================================================
-   SCREEN (DESKTOP)
+   SCREEN
 ========================================================= */
 .phone-screen{
   padding:16px;
   height:calc(100% - 32px);
   box-sizing:border-box;
   font-size:12px;
-  overflow:hidden; /* ❌ pas de scroll sur desktop */
+  overflow:hidden;
 }
 
 .phone-title{
@@ -87,26 +84,48 @@
   cursor:pointer;
 }
 
-.phone-line:hover{
-  background:#063;
+/* =========================================================
+   HOVER — DESKTOP UNIQUEMENT
+========================================================= */
+@media (hover: hover) and (pointer: fine){
+  .phone-line:hover{
+    background:#063;
+  }
 }
 
+/* =========================================================
+   DÉTAILS
+========================================================= */
 .phone-detail{
   padding:6px 8px;
   margin-left:14px;
   color:#7dff6a;
   font-size:10px;
   display:none;
-  cursor:pointer;
+  cursor:default;
 }
 
+/* ❌ aucun soulignement */
 .phone-detail:hover{
   color:#fff;
-  text-decoration:underline;
+  text-decoration:none;
 }
 
 /* =========================================================
-   DÉSACTIVER LA SÉLECTION DE TEXTE
+   LIENS
+========================================================= */
+.phone-detail a{
+  color:#7dff6a;
+  text-decoration:none;
+}
+
+.phone-detail a:hover{
+  color:#fff;
+  text-decoration:none;
+}
+
+/* =========================================================
+   DÉSACTIVER SÉLECTION TEXTE
 ========================================================= */
 *{
   user-select:none;
@@ -115,11 +134,10 @@
 }
 
 /* =========================================================
-   📱 PHONE — LISIBILITÉ MOBILE
+   📱 MOBILE
 ========================================================= */
 @media (max-width: 768px){
 
-  /* 📱 fenêtre plus courte (pas géante) */
   .phone-window{
     width:92vw;
     max-width:420px;
@@ -129,7 +147,6 @@
     top:12vh !important;
   }
 
-  /* 📜 scroll vertical UNIQUEMENT sur mobile */
   .phone-screen{
     overflow-y:auto;
     overflow-x:hidden;
@@ -148,38 +165,37 @@
     padding:10px 6px;
   }
 
-  /* 📱 MOBILE : tout le contenu est visible */
   .phone-detail{
     display:block;
     font-size:13px;
     margin-left:0;
     padding:10px 8px;
-    cursor:default;
   }
 
-  /* Liens lisibles */
-  .phone-detail a{
-    color:#7dff6a;
-    text-decoration:underline;
-  }
-
-  /* Bouton retour bien visible */
-  .phone-line:last-child{
+  .phone-back{
     margin-top:18px;
     display:block;
   }
 }
 
 /* =========================================================
-   🖥 DESKTOP : ABOUT ME MASQUÉ UNIQUEMENT
+   📱 MOBILE FIRST
+========================================================= */
+.phone-only{
+  display:block;
+}
+
+/* =========================================================
+   🖥 DESKTOP
 ========================================================= */
 @media (min-width: 769px){
 
-  /* ❌ on cache SEULEMENT le bouton ABOUT ME */
-  .phone-about{
+  .phone-skills,
+  .phone-testimonials{
     display:none !important;
   }
 
-  /* ✅ on NE TOUCHE PAS à .phone-detail ici
-     → le JS gère le déroulement */
+  .phone-only{
+    display:none !important;
+  }
 }

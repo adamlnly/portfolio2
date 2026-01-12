@@ -1,4 +1,6 @@
-
+/* =========================================================
+   BASE
+========================================================= */
 body{
   margin:0;
   height:100vh;
@@ -7,42 +9,45 @@ body{
   overflow:hidden;
 }
 
-/* WINDOW */
+/* =========================================================
+   WINDOW (PC)
+========================================================= */
 .window{
   position:absolute;
-  width:60vw;
-  height:80vh;
+  width:44vw;
+  height:64vh;
   min-width:520px;
   min-height:420px;
+
   background:#000;
-  border:2px solid #888;
-  border-radius:12px;
+
+  border:2px solid #444;
+  box-shadow:
+    inset 2px 2px 0 #aaa,
+    inset -2px -2px 0 #111,
+    0 12px 30px rgba(0,0,0,.65);
+
+  border-radius:10px;
   display:none;
   overflow:hidden;
 }
 
-/* 📱 MOBILE : petit carré centré (pas full screen) */
-@media (max-width:768px){
-  .window{
-    width:90vw;
-    height:90vw;
-    max-width:520px;
-    max-height:520px;
-    min-width:unset;
-    min-height:unset;
-  }
-}
-
+/* =========================================================
+   TOP BAR (BLEUE)
+========================================================= */
 .bar{
-  height:34px;
+  height:32px;
   background:linear-gradient(#0a64ad,#084d8c);
   color:#fff;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   padding:0 10px;
-  font-size:15px;
+  font-size:14px;
   cursor:move;
+  user-select:none;
 }
 
 .close{
@@ -51,18 +56,23 @@ body{
   background:#cc0000;
   color:#fff;
   border:none;
-  border-radius:4px;
+  border-radius:3px;
   cursor:pointer;
+  font-size:13px;
 }
 
-/* SCREEN */
+/* =========================================================
+   SCREEN
+========================================================= */
 .screen{
   position:relative;
-  height:calc(100% - 34px);
+  height:calc(100% - 32px);
   overflow:hidden;
 }
 
-/* LOADING */
+/* =========================================================
+   LOADING
+========================================================= */
 .loading{
   position:absolute;
   inset:0;
@@ -73,12 +83,33 @@ body{
   justify-content:center;
 }
 
-.loading-logo{width:60%;max-width:320px;margin-bottom:20px}
-.loading-title{color:#fff;font-size:16px;margin-bottom:18px}
-.loading-bar{width:60%;height:14px;border:2px solid #fff}
-.loading-fill{height:100%;width:0;background:#fff}
+.loading-logo{
+  width:60%;
+  max-width:300px;
+  margin-bottom:20px;
+}
 
-/* DESKTOP */
+.loading-title{
+  color:#fff;
+  font-size:14px;
+  margin-bottom:16px;
+}
+
+.loading-bar{
+  width:60%;
+  height:12px;
+  border:2px solid #fff;
+}
+
+.loading-fill{
+  height:100%;
+  width:0;
+  background:#fff;
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
 .desktop{
   position:absolute;
   inset:0;
@@ -94,104 +125,187 @@ body{
   pointer-events:none;
 }
 
-/* ICONS */
+/* =========================================================
+   ICONS
+========================================================= */
 .icon{
   position:absolute;
-  width:120px;
+  width:130px;
+
   display:flex;
   flex-direction:column;
   align-items:center;
-  font-size:10px;
+
+  font-size:11px;
   color:#fff;
+
   cursor:pointer;
   user-select:none;
   touch-action:none;
 }
 
-.icon svg{width:64px;height:64px;margin-bottom:6px}
+.icon svg{
+  width:100px;
+  height:80px;
+  margin-bottom:6px;
+}
 
 .icon-label{
   width:140px;
   background:rgba(0,0,0,.65);
   padding:6px;
   text-align:center;
-  line-height:1.25;
+  line-height:1.3;
 }
 
-/* WINDOWS (DOSSIER + TEXTE) */
+/* =========================================================
+   FOLDER WINDOWS (DESKTOP AGRANDI)
+========================================================= */
 .folder-window{
   position:absolute;
-  width:360px;
+  width:420px;                 /* ⬅️ AVANT 320px */
   background:#111;
-  border:2px solid #888;
+
+  border:2px solid #555;
+  box-shadow:
+    inset 1px 1px 0 #aaa,
+    inset -1px -1px 0 #000,
+    0 8px 18px rgba(0,0,0,.65);
+
   display:none;
-  touch-action:none;
+  z-index:20;
 }
 
+/* BARRE JAUNE (PLUS HAUTE) */
 .folder-bar{
-  height:26px;
-  background:#e3c74c;
-  font-size:9px;
+  height:30px;                 /* ⬅️ AVANT 24px */
+  background:linear-gradient(#f2d96c,#d1b347);
+  font-size:11px;              /* ⬅️ AVANT 9px */
+  font-weight:bold;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:0 6px;
+
+  padding:0 10px;
   cursor:move;
-  touch-action:none;
+  box-sizing:border-box;
 }
 
 .folder-close{
   background:#cc0000;
   border:none;
   color:#fff;
-  width:18px;
+  width:18px;                  /* ⬅️ AVANT 16px */
   height:18px;
   cursor:pointer;
+  border-radius:3px;
+  font-size:11px;
 }
 
+/* =========================================================
+   FILES (PLUS LISIBLES)
+========================================================= */
 .file{
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:6px;
-  font-size:9px;
+  gap:12px;                    /* ⬅️ AVANT 10px */
+
+  padding:12px 16px;           /* ⬅️ AVANT 8px 12px */
+  font-size:12px;              /* ⬅️ AVANT 10px */
+
   color:#fff;
   cursor:pointer;
   user-select:none;
-  touch-action:manipulation;
 }
-.file:hover{background:#1e90ff}
 
-/* TEXT VIEWER (DESKTOP : inchangé) */
-.text-content{
-  padding:12px;
-  font-size:15px;
+.file:hover{
+  background:#1e90ff;
+}
+
+/* =========================================================
+   TEXT VIEWER (DESKTOP AGRANDI)
+========================================================= */
+.text-viewer{
+  width:460px;                 /* ⬅️ AVANT 380px */
+  max-width:460px;
+  max-height:540px;            /* ⬅️ AVANT 420px */
+  overflow:hidden;
+}
+
+.text-viewer .text-content{
+  padding:20px;                /* ⬅️ AVANT 16px */
+  display:flex;
+  flex-direction:column;
+  gap:18px;                    /* ⬅️ AVANT 14px */
+
+  font-size:15px;              /* ⬅️ AVANT 14px */
+  line-height:1.6;             /* ⬅️ PLUS AÉRÉ */
   color:#fff;
-  white-space:pre-wrap;   /* 🔥 on garde les blancs */
-  line-height:1.5;
-  max-height:300px;
-  overflow:auto;
+
+  overflow:hidden;
 }
 
-/* =====================================================
-   📱 PATCH MOBILE UNIQUEMENT
-===================================================== */
+/* image projet (PLUS GRANDE) */
+.project-image{
+  width:100%;
+  max-height:220px;            /* ⬅️ AVANT 180px */
+  object-fit:cover;
+  border-radius:8px;
+  display:none;
+}
+
+/* texte projet (SCROLL ICI) */
+.project-text{
+  max-height:220px;            /* ⬅️ AVANT 160px */
+  overflow-y:auto;
+  padding-right:8px;
+  color:#fff;
+}
+
+/* bouton projet (PLUS CONFORTABLE) */
+.project-link{
+  display:none;
+
+  margin:0 auto;
+  width:240px;                 /* ⬅️ AVANT 200px */
+
+  padding:14px 0;              /* ⬅️ AVANT 12px */
+  text-align:center;
+  white-space:nowrap;
+
+  background:#1e90ff;
+  color:#fff;
+  text-decoration:none;
+
+  font-size:13px;              /* ⬅️ AVANT 12px */
+  line-height:1;
+
+  border-radius:8px;
+  box-shadow:0 4px 0 #0b4ea2;
+
+  cursor:pointer;
+  user-select:none;
+}
+
+.project-link:hover{ background:#1873cc; }
+.project-link:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 #0b4ea2;
+}
+
+/* =========================================================
+   📱 MOBILE — GLOBAL (INCHANGÉ)
+========================================================= */
 @media (max-width:768px){
 
-  /* 🔒 largeur BLOQUÉE du viewer */
-  #text-viewer{
-    width:300px;
-    max-width:300px;
-    min-width:300px;
-    height:auto;          /* hauteur libre */
-    max-height:70%;       /* jamais hors écran */
-    overflow:hidden;
-  }
-
-  /* 🟡 barre jaune : jamais trop longue */
-  .folder-bar{
-    width:100%;
-    box-sizing:border-box;
+  .window{
+    width:90vw;
+    height:90vw;
+    max-width:520px;
+    max-height:520px;
+    min-width:unset;
+    min-height:unset;
   }
 
   .folder-bar span{
@@ -200,38 +314,70 @@ body{
     white-space:nowrap;
     text-overflow:ellipsis;
   }
+}
 
-  /* 📝 texte : vertical only */
-  .text-content{
-    font-size:8px;
-    line-height:1.4;
-    white-space:pre-wrap;     /* on garde les retours */
-    overflow-x:hidden;        /* ❌ jamais horizontal */
-    overflow-y:auto;          /* ✅ vertical */
-    max-height:180px;
+/* =========================================================
+   📱 TEXT VIEWER — MOBILE (INCHANGÉ)
+========================================================= */
+@media (max-width:768px){
+
+  .text-viewer{
+    width:90vw;
+    max-width:90vw;
+    max-height:65vh;
+    overflow:hidden;
+
+    left:50% !important;
+    top:50% !important;
+    transform:translate(-50%, -50%);
   }
 
-  /* ❌ resize sur mobile */
-  .resizer{display:none}
+  .text-viewer .text-content{
+    padding:12px;
+    gap:10px;
+    font-size:11px;
+    line-height:1.45;
+  }
+
+  .project-image{
+    max-height:120px;
+  }
+
+  .project-text{
+    max-height:110px;
+  }
+
+  .project-link{
+    width:100%;
+    padding:14px 0;
+    font-size:11px;
+  }
 }
 
-/* RESIZE (DESKTOP) */
-.resizer{position:absolute}
-.resizer.right{top:0;right:-4px;width:8px;height:100%;cursor:ew-resize}
-.resizer.bottom{bottom:-4px;left:0;width:100%;height:8px;cursor:ns-resize}
-.resizer.corner{right:-6px;bottom:-6px;width:14px;height:14px;cursor:nwse-resize}
+/* =========================================================
+   📱 FIX MOBILE — BARRE JAUNE TROP GRANDE
+   (DESKTOP INCHANGÉ)
+========================================================= */
+@media (max-width:768px){
 
-/* 📱 DOSSIERS : largeur adaptée au mobile */
-.folder-window {
-  width: calc(100% - 16px);   /* jamais plus large que la fenêtre */
-  max-width: 320px;           /* limite propre */
-  box-sizing: border-box;
-}
+  .folder-window{
+    width:90vw;              /* dossiers plus larges en mobile */
+  }
 
-/* 🟡 BARRE JAUNE : suit exactement la fenêtre */
-.folder-bar {
-  width: 100%;
-  box-sizing: border-box;
-  padding-left: 6px;
-  padding-right: 6px;
+  .folder-window .folder-bar{
+    height:20px;             /* ⬅️ AVANT 30px */
+    font-size:8px;           /* ⬅️ AVANT 11px */
+    padding:0 6px;           /* ⬅️ AVANT 10px */
+  }
+
+  .folder-close{
+    width:14px;              /* ⬅️ AVANT 18px */
+    height:14px;
+    font-size:9px;
+  }
+
+  .file{
+    padding:8px 10px;
+    font-size:10px;
+  }
 }

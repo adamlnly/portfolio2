@@ -78,6 +78,7 @@
       <div class="desktop" id="desktop">
         <img src="assets/images/pageproject.png" class="desktop-bg">
 
+        <!-- ===== ICONS (INCHANGÉS) ===== -->
         <div class="icon folder" data-folder="dev" style="left:20px;top:20px">
           <svg viewBox="0 0 32 32">
             <rect x="4" y="6" width="24" height="20" fill="#f5d76e"/>
@@ -94,30 +95,77 @@
           <div class="icon-label">Projet Créatif</div>
         </div>
 
-        <div class="folder-window" id="folder-dev" style="left:160px;top:40px">
-          <div class="folder-bar">
-            Projet Développement
-            <button class="folder-close">✕</button>
-          </div>
-          <div class="file" data-title="Projet Alpha" data-text="Ceci est le projet Alpha.">📄 Projet Alpha</div>
-          <div class="file" data-title="Projet Beta" data-text="Projet Beta description longue.">📄 Projet Beta</div>
-        </div>
+<!-- ================== PROJET DÉVELOPPEMENT ================== -->
+<div class="folder-window" id="folder-dev" style="left:160px;top:40px">
+  <div class="folder-bar">
+    Projet Développement
+    <button class="folder-close">✕</button>
+  </div>
 
-        <div class="folder-window" id="folder-crea" style="left:200px;top:120px">
-          <div class="folder-bar">
-            Projet Créatif
-            <button class="folder-close">✕</button>
-          </div>
-          <div class="file" data-title="Concept 1" data-text="Concept créatif numéro 1.">🎨 Concept 1</div>
-          <div class="file" data-title="Concept 2" data-text="Concept créatif numéro 2.">🎨 Concept 2</div>
-        </div>
+  <div class="file"
+       data-title="DataViz — Genres musicaux"
+       data-text="Projet scolaire réalisé en SAE. Ce projet consiste à visualiser des données sous forme de graphiques. Notre sujet portait sur l’évolution des genres musicaux en Amérique."
+       data-image="assets/images/DATAVIZ.png"
+       data-link="https://lohanvapaille.github.io/datavyse_sae/">
+    📊 DataViz
+  </div>
 
-        <div class="folder-window" id="text-viewer" style="left:300px;top:200px;width:420px">
+  <div class="file"
+       data-title="SweetPlace"
+       data-text="SweetPlace est un site de donuts participatif. Les utilisateurs peuvent découvrir et proposer des créations autour de l’univers des donuts. Projet scolaire."
+       data-image="assets/images/sweetplace.png"
+       data-link="https://sweetplace.shop/">
+    🍩 SweetPlace
+  </div>
+</div>
+
+<!-- ================== PROJET CRÉATIF ================== -->
+<div class="folder-window" id="folder-crea" style="left:200px;top:120px">
+  <div class="folder-bar">
+    Projet Créatif
+    <button class="folder-close">✕</button>
+  </div>
+
+  <div class="file"
+       data-title="Court-métrage"
+       data-text="Nous suivons la vie d'un élève arrivant en France récemment, qui n'a rien pour lui et qui est toujours seul."
+       data-image="assets/images/projetCOURTMETRAGE.png"
+       data-link="https://www.youtube.com/watch?v=6dmWuYcLkZ4">
+    🎬 Court-métrage
+  </div>
+
+  <div class="file"
+       data-title="Interview — Kevin Corbell"
+       data-text="Projet scolaire consistant en une interview de Kevin Corbell. Travail de recherche, préparation des questions et réalisation vidéo."
+       data-image="assets/images/projetINTERVIEW.png"
+       data-link="https://www.youtube.com/watch?v=NLlmZKfr4AU">
+    🎤 Interview
+  </div>
+</div>
+
+
+              <!-- ===== TEXT VIEWER ===== -->
+        <div class="folder-window text-viewer">
           <div class="folder-bar">
-            <span id="text-title">Fichier</span>
-            <button class="folder-close" id="close-text">✕</button>
+            <span class="text-title">Fichier</span>
+            <button class="folder-close close-text">✕</button>
           </div>
-          <div class="text-content" id="text-content"></div>
+
+          <div class="text-content">
+
+            <img class="project-image" src="" alt="">
+
+            <div class="project-text"></div>
+
+            <a class="project-link" target="_blank">
+              VOIR
+            </a>
+
+  </div>
+</div>
+
+
+          </div>
         </div>
 
       </div>
@@ -148,13 +196,38 @@
 <div id="sign">
   <div id="signWindow" class="sign-window">
     <button id="signClose" class="sign-close" type="button">✕</button>
+
     <img src="assets/images/pancarte.png" alt="pancarte">
-    <div class="sign-title">À propos de moi</div>
-    <div id="signText" class="sign-text"></div>
+
+    <div class="sign-title">Informations</div>
+
+    <!-- ZONE SCROLLABLE : TEXTE + TÉMOIGNAGE -->
+    <div id="signText" class="sign-text">
+
+      <!-- 📝 TEXTE TYPEWRITER -->
+      <div id="signTextContent"></div>
+
+      <!-- ⬛ BLOC TÉMOIGNAGE (DANS LE SCROLL) -->
+      <div class="testimonial-box">
+        
+        <button class="testi-nav prev" type="button">‹</button>
+
+        <div class="testimonial-content">
+          <div class="testi-name" id="testiName"></div>
+          <div class="testi-text" id="testiText"></div>
+        </div>
+
+        <button class="testi-nav next" type="button">›</button>
+
+      </div>
+      <!-- ⬛ FIN TÉMOIGNAGE -->
+
+    </div>
+
     <div id="signScroll" class="sign-scroll">▼</div>
   </div>
 </div>
-
+ 
 
 <!-- 🔔 WELCOME NOTIFICATION (AJOUT UNIQUE) -->
 <div id="welcomeOverlay">

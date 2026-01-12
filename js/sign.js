@@ -1,70 +1,146 @@
-console.log("sign.js démarre");
-
 /* ========= ELEMENTS ========= */
 const sign      = document.getElementById("sign");
 const windowEl  = document.getElementById("signWindow");
-const textEl    = document.getElementById("signText");
+const textEl    = document.getElementById("signTextContent");
 const closeBtn  = document.getElementById("signClose");
+const carousel  = document.querySelector(".testimonial-box");
 
-/* ========= TEXTE ========= */
-const fullText = `Adam Kassioui
+/* ========= CLAMP ========= */
+function clampToViewport(el, margin = 0) {
+  el.style.left = Math.min(
+    Math.max(el.offsetLeft, margin),
+    innerWidth - el.offsetWidth - margin
+  ) + "px";
 
-Je m'appelle Adam Kassioui, je suis étudiant en début d'année MMI .
-Je m’intéresse particulièrement au développement web et à la création numérique.
-J’aime concevoir des interfaces interactives, expérimenter avec le code
-et donner vie à des idées à travers le numérique.
-`
-
-/* ========= TYPEWRITER ========= */
-let typing;
-
-function typeText() {
-  textEl.textContent = "";
-  let i = 0;
-
-  typing = setInterval(() => {
-    textEl.textContent += fullText[i++] || "";
-    if (i > fullText.length) clearInterval(typing);
-  }, 15);
+  el.style.top = Math.min(
+    Math.max(el.offsetTop, margin),
+    innerHeight - el.offsetHeight - margin
+  ) + "px";
 }
 
-/* ========= OPEN / CLOSE ========= */
+/* ========= TEXTE ========= */
+const fullText = `
+<div class="sign-center-title">À PROPOS DE MOI</div>
+
+<p>
+Je m’appelle Adam Kassioui, étudiant en BUT Métiers du Multimédia et de l’Internet (MMI),
+avec un intérêt particulier pour le développement web et la création numérique.
+</p>
+
+<p>
+J’aime concevoir des interfaces modernes, imaginer des expériences interactives
+et expérimenter de nouvelles idées afin de donner vie à des projets concrets.
+</p>
+
+<p>
+Je suis également formé aux bonnes pratiques du web, notamment à travers
+la méthodologie <strong>Opquast</strong>, avec une attention particulière portée
+à la qualité, à l’accessibilité et à l’expérience utilisateur.
+</p>
+
+<p>
+Pour plus de détails sur mon parcours et mes expériences,
+vous pouvez consulter
+<a href="assets/images/cvadam.pdf" target="_blank">mon CV</a>.
+</p>
+
+<div class="sign-center-title">COMPÉTENCES</div>
+
+<p>
+HTML / CSS / JavaScript<br>
+UI / UX Design – Figma<br>
+Création numérique
+</p>
+
+<div class="sign-center-title">TÉMOIGNAGES</div>
+`;
+
+
+/* ========= OPEN ========= */
 function openSign() {
   sign.classList.add("active");
 
   windowEl.style.left = (innerWidth - windowEl.offsetWidth) / 2 + "px";
   windowEl.style.top  = (innerHeight - windowEl.offsetHeight) / 2 + "px";
 
-  typeText();
+  clampToViewport(windowEl);
+
+  // cacher carrousel pendant chargement
+  carousel.style.opacity = "0";
+  carousel.style.pointerEvents = "none";
+
+  // reset texte
+  textEl.innerHTML = "";
+  textEl.classList.remove("show");
+
+  // insertion quasi instantanée
+  requestAnimationFrame(() => {
+    textEl.innerHTML = fullText;
+    textEl.classList.add("show");
+
+    // afficher carrousel après animation
+    setTimeout(() => {
+      carousel.style.opacity = "1";
+      carousel.style.pointerEvents = "auto";
+    }, 200);
+  });
+
+  testiIndex = 0;
+  renderTestimonial();
 }
 
 function closeSign() {
   sign.classList.remove("active");
-  clearInterval(typing);
 }
+
+closeBtn.onclick = closeSign;
+window.openSign = openSign;
 
 /* ========= DRAG ========= */
 let drag = false, dx = 0, dy = 0;
 
-windowEl.onmousedown = e => {
+windowEl.addEventListener("mousedown", e => {
   drag = true;
   dx = e.clientX - windowEl.offsetLeft;
   dy = e.clientY - windowEl.offsetTop;
-};
+});
 
-document.onmousemove = e => {
+document.addEventListener("mousemove", e => {
   if (!drag) return;
   windowEl.style.left = e.clientX - dx + "px";
   windowEl.style.top  = e.clientY - dy + "px";
+  clampToViewport(windowEl);
+});
+
+document.addEventListener("mouseup", () => drag = false);
+
+/* ========= TÉMOIGNAGES ========= */
+const testimonials = [
+  { name: "Mohammed",  text: "Adam a travaillé en tant qu’intérimaire et s’est montré réactif et sérieux sur les missions qui lui étaient confiées. Toujours de bonne humeur et avec un bon esprit d’équipe, c’était très agréable de travailler avec lui." },
+  { name: "Lucas", text: "Adam a travaillé pendant deux mois en tant qu’intérimaire et a fait un travail sérieux et efficace. Même quand certaines missions étaient compliquées, il a su bien les gérer. Son implication a été très appréciée." },
+  { name: "Sabrina", text: "Adam a travaillé avec nous pendant deux mois et a vraiment bien taffé. Même quand certaines missions étaient un peu compliquées, il a su gérer sans problème. Sérieux, efficace et agréable au quotidien, c’était cool de bosser avec lui." },
+  { name: "Paul", text: "J’ai travaillé avec Adam sur pendant plusieurs projets. Il était sérieux et impliqué, et même quand les tâches étaient compliquées, il a su gérer. C’était agréable de travailler avec lui." }
+];
+
+const testiNameEl = document.getElementById("testiName");
+const testiTextEl = document.getElementById("testiText");
+const prevBtn = document.querySelector(".testi-nav.prev");
+const nextBtn = document.querySelector(".testi-nav.next");
+
+let testiIndex = 0;
+
+function renderTestimonial() {
+  const t = testimonials[testiIndex];
+  testiNameEl.textContent = t.name;
+  testiTextEl.textContent = t.text;
+}
+
+prevBtn.onclick = () => {
+  testiIndex = (testiIndex + testimonials.length - 1) % testimonials.length;
+  renderTestimonial();
 };
 
-document.onmouseup = () => drag = false;
-
-/* ========= EVENTS ========= */
-closeBtn.onclick = closeSign;
-
-/* ========= EXPORT ========= */
-window.openSign  = openSign;
-window.closeSign = closeSign;
-
-console.log("sign.js terminé");
+nextBtn.onclick = () => {
+  testiIndex = (testiIndex + 1) % testimonials.length;
+  renderTestimonial();
+};

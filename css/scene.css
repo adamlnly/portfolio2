@@ -34,7 +34,7 @@ html, body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 300px;
+  width: 250px;
   image-rendering: pixelated;
   cursor: pointer;
   z-index: 5;
@@ -245,4 +245,16 @@ html, body {
 
     font-size: 16px;
   }
+}
+/* =========================================================
+   📱 MOBILE — DÉSACTIVE UNIQUEMENT LA LUMIÈRE CURSEUR
+   (LA LAMPE RESTE FONCTIONNELLE)
+========================================================= */
+@media (max-width: 768px) {
+
+  /* ❌ supprime l’effet noir / lumineux au toucher */
+  .cursor-light {
+    display: none !important;
+  }
+
 }
