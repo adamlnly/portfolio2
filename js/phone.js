@@ -1,6 +1,12 @@
-/* =========================================================
-   PHONE.JS — VERSION STABLE
-========================================================= */
+/*
+  NOTE :
+  La gestion complète de cette fenêtre téléphone
+  (navigation interne, affichage conditionnel mobile/tablette,
+  drag de la fenêtre et limites à l’écran)
+  était difficile à concevoir seul.
+  Je me suis aidé de l’IA pour générer cette structure,
+  puis je l’ai comprise et adaptée à mon projet.
+*/
 
 const phoneOverlay = document.getElementById("phone");
 const phoneWindow  = document.getElementById("phoneWindow");
@@ -8,34 +14,30 @@ const phoneBar     = document.getElementById("phoneBar");
 const phoneTitle   = document.getElementById("phoneTitle");
 const phoneContent = document.getElementById("phoneContent");
 
-/* =========================================================
-   UTILS
-========================================================= */
-function isMobile(){
-  return window.matchMedia("(max-width:768px)").matches;
+/* ================= HELPERS ================= */
+function isDesktop(){
+  return window.innerWidth >= 1025;
 }
 
-/* =========================================================
-   DATA
-========================================================= */
+/* ================= DATA ================= */
 const contact = {
   mobile: "+33 7 68 07 00 76",
   email: "kassiouiadam@gmail.com",
-  linkedin: "https://www.linkedin.com/in/adam-kassioui-6b6681350/",
-  github: "https://github.com/adam"
+  linkedin: "https://www.linkedin.com/in/adam-kassioui-6b6681350/"
 };
 
-/* =========================================================
-   OPEN / CLOSE
-========================================================= */
+/* ================= OPEN / CLOSE ================= */
 function openPhone() {
   phoneOverlay.classList.add("active");
   phoneWindow.style.display = "block";
 
-  phoneWindow.style.left =
-    (innerWidth - phoneWindow.offsetWidth) / 2 + "px";
-  phoneWindow.style.top =
-    (innerHeight - phoneWindow.offsetHeight) / 2 + "px";
+  // Centrage uniquement sur desktop
+  if (isDesktop()) {
+    phoneWindow.style.left =
+      (innerWidth - phoneWindow.offsetWidth) / 2 + "px";
+    phoneWindow.style.top =
+      (innerHeight - phoneWindow.offsetHeight) / 2 + "px";
+  }
 
   showMenu();
 }
@@ -45,35 +47,31 @@ function closePhone() {
   phoneOverlay.classList.remove("active");
 }
 
-/* =========================================================
-   MENU
-========================================================= */
+/* ================= MENU ================= */
 function showMenu(){
   phoneTitle.textContent = "MENU";
 
   phoneContent.innerHTML = `
-    <div class="phone-line" onclick="showContacts()">> CONTACTS</div>
-    ${isMobile() ? `<div class="phone-line phone-about" onclick="showAbout()">> ABOUT ME</div>` : ``}
-    <div class="phone-line phone-skills" onclick="showSkills()">> COMPÉTENCES</div>
-    <div class="phone-line phone-testimonials" onclick="showTestimonials()">> TÉMOIGNAGES</div>
+    <div class="phone-line" data-action="contacts">> CONTACTS</div>
+    <div class="phone-line phone-only" data-action="about">> À PROPOS</div>
+    <div class="phone-line phone-skills" data-action="skills">> COMPÉTENCES</div>
+    <div class="phone-line phone-testimonials" data-action="testimonials">> TÉMOIGNAGES</div>
   `;
 }
 
-/* =========================================================
-   CONTACTS
-========================================================= */
+/* ================= CONTACTS ================= */
 function showContacts() {
   phoneTitle.textContent = "CONTACTS";
-  phoneContent.innerHTML = `
-    <div class="phone-line" id="adamBtn">> Adam</div>
-    <span class="phone-line phone-back" onclick="showMenu()">< Retour</span>
-  `;
 
-  document.getElementById("adamBtn").onclick = showAdam;
+  phoneContent.innerHTML = `
+    <div class="phone-line" data-action="adam">> Adam</div>
+    <span class="phone-line phone-back" data-action="menu">< Retour</span>
+  `;
 }
 
 function showAdam() {
   phoneTitle.textContent = "Adam";
+
   phoneContent.innerHTML = `
     <div class="phone-line" id="mobileBtn">> Mobile</div>
     <div class="phone-detail" id="mobileDetail">${contact.mobile}</div>
@@ -84,7 +82,7 @@ function showAdam() {
     <div class="phone-line" id="linkedinBtn">> LinkedIn</div>
     <div class="phone-detail" id="linkedinDetail">Voir le profil</div>
 
-    <span class="phone-line phone-back" onclick="showContacts()">< Retour</span>
+    <span class="phone-line phone-back" data-action="contacts">< Retour</span>
   `;
 
   toggle("mobileBtn", "mobileDetail", () =>
@@ -100,58 +98,39 @@ function showAdam() {
   );
 }
 
-/* =========================================================
-   ABOUT ME — MOBILE ONLY (SAFE)
-========================================================= */
+/* ================= À PROPOS ================= */
 function showAbout(){
-  if (!isMobile()) {
-    showMenu();
-    return;
-  }
+  phoneTitle.textContent = "À PROPOS";
 
-  phoneTitle.textContent = "ABOUT ME";
   phoneContent.innerHTML = `
     <div class="phone-detail phone-only" style="display:block">
-
       Je m'appelle <strong>Adam Kassioui</strong>, étudiant en
       <strong>BUT Métiers du Multimédia et de l’Internet (MMI)</strong>,
-      avec un intérêt particulier pour le développement web
-      et la création numérique.<br><br>
+      passionné par le développement web et la création numérique.<br><br>
 
-      J’aime concevoir des interfaces modernes,
-      imaginer des expériences interactives
-      et expérimenter de nouvelles idées afin
-      de donner vie à des projets concrets.<br><br>
+      J’aime concevoir des interfaces modernes, imaginer des expériences
+      interactives et donner vie à des projets concrets.<br><br>
 
       <strong>Orientation</strong><br>
       Développement web<br>
       Création numérique<br>
       Interfaces interactives<br><br>
 
-      
-      Je suis également formé aux bonnes pratiques du web, notamment à travers
-      la méthodologie <strong>Opquast</strong>, avec une attention particulière portée
-      à la qualité, à l’accessibilité et à l’expérience utilisateur.
+      Formé aux bonnes pratiques du web (méthodologie <strong>Opquast</strong>).<br><br>
 
-      Pour plus de détails sur mon parcours et mes expériences,
-      vous pouvez consulter
-      <strong><a href="assets/images/cvadam.pdf" target="_blank" style="color: blue;">mon CV</a>.</strong> <br><br>
+      <a href="assets/images/cvadam.pdf" target="_blank">Voir mon CV</a><br><br>
 
-
-
-      <span class="phone-line phone-back" onclick="showMenu()">< Retour</span>
+      <span class="phone-line phone-back" data-action="menu">< Retour</span>
     </div>
   `;
 }
 
-/* =========================================================
-   COMPÉTENCES — MOBILE
-========================================================= */
+/* ================= COMPÉTENCES ================= */
 function showSkills(){
   phoneTitle.textContent = "COMPÉTENCES";
+
   phoneContent.innerHTML = `
     <div class="phone-detail phone-only" style="display:block">
-
       <strong>Développement</strong><br>
       HTML / CSS / JavaScript<br><br>
 
@@ -163,52 +142,53 @@ function showSkills(){
       Suite Adobe<br>
       Expérimentations web<br><br>
 
-      <span class="phone-line phone-back" onclick="showMenu()">< Retour</span>
+      <span class="phone-line phone-back" data-action="menu">< Retour</span>
     </div>
   `;
 }
 
-/* =========================================================
-   TÉMOIGNAGES — MOBILE
-========================================================= */
+/* ================= TÉMOIGNAGES ================= */
 function showTestimonials(){
   phoneTitle.textContent = "TÉMOIGNAGES";
+
   phoneContent.innerHTML = `
     <div class="phone-detail phone-only" style="display:block">
-
       <strong>Mohammed</strong><br>
       Adam a travaillé en tant qu’intérimaire et s’est montré réactif
-      et sérieux sur les missions qui lui étaient confiées.
-      Toujours de bonne humeur et avec un bon esprit d’équipe,
-      c’était très agréable de travailler avec lui.<br><br>
+      et sérieux sur les missions qui lui étaient confiées.<br><br>
 
       <strong>Lucas</strong><br>
-      Adam a travaillé pendant deux mois en tant qu’intérimaire
-      et a fait un travail sérieux et efficace.
-      Même quand certaines missions étaient compliquées,
-      il a su bien les gérer. Son implication a été très appréciée.<br><br>
+      Adam a fait un travail sérieux et efficace,
+      même sur des missions complexes.<br><br>
 
       <strong>Sabrina</strong><br>
-      Adam a travaillé avec nous pendant deux mois et a vraiment
-      bien taffé. Même quand certaines missions étaient un peu
-      compliquées, il a su gérer sans problème.
       Sérieux, efficace et agréable au quotidien,
       c’était cool de bosser avec lui.<br><br>
 
       <strong>Paul</strong><br>
-      J’ai travaillé avec Adam sur plusieurs projets.
-      Il était sérieux et impliqué, et même quand les tâches
-      étaient compliquées, il a su gérer.
-      C’était agréable de travailler avec lui.<br><br>
+      Sérieux et impliqué sur tous les projets.<br><br>
 
-      <span class="phone-line phone-back" onclick="showMenu()">< Retour</span>
+      <span class="phone-line phone-back" data-action="menu">< Retour</span>
     </div>
   `;
 }
 
-/* =========================================================
-   TOGGLE UTILS
-========================================================= */
+/* ================= ROUTER ================= */
+phoneContent.addEventListener("click", e => {
+  const line = e.target.closest("[data-action]");
+  if (!line) return;
+
+  const action = line.dataset.action;
+
+  if (action === "menu") showMenu();
+  if (action === "contacts") showContacts();
+  if (action === "adam") showAdam();
+  if (action === "about") showAbout();
+  if (action === "skills") showSkills();
+  if (action === "testimonials") showTestimonials();
+});
+
+/* ================= TOGGLE ================= */
 function toggle(btnId, detailId, action) {
   const btn = document.getElementById(btnId);
   const detail = document.getElementById(detailId);
@@ -221,14 +201,12 @@ function toggle(btnId, detailId, action) {
   detail.onclick = action;
 }
 
-/* =========================================================
-   DRAG — DESKTOP UNIQUEMENT
-========================================================= */
+/* ================= DRAG (DESKTOP UNIQUEMENT) ================= */
 let dragging = false;
 let ox = 0, oy = 0;
 
 phoneBar.addEventListener("pointerdown", e => {
-  if (isMobile()) return;
+  if (!isDesktop()) return;
   dragging = true;
   ox = e.clientX - phoneWindow.offsetLeft;
   oy = e.clientY - phoneWindow.offsetTop;
@@ -237,19 +215,13 @@ phoneBar.addEventListener("pointerdown", e => {
 document.addEventListener("pointermove", e => {
   if (!dragging) return;
 
-  let x = e.clientX - ox;
-  let y = e.clientY - oy;
-
-  const maxX = window.innerWidth  - phoneWindow.offsetWidth;
-  const maxY = window.innerHeight - phoneWindow.offsetHeight;
-
-  x = Math.max(0, Math.min(x, maxX));
-  y = Math.max(0, Math.min(y, maxY));
-
-  phoneWindow.style.left = x + "px";
-  phoneWindow.style.top  = y + "px";
+  phoneWindow.style.left = e.clientX - ox + "px";
+  phoneWindow.style.top  = e.clientY - oy + "px";
 });
 
 document.addEventListener("pointerup", () => dragging = false);
 
-console.log("phone.js chargé");
+/* ================= EXPORT ================= */
+window.openPhone = openPhone;
+
+console.log("phone.js chargé — VERSION NETTOYÉE ✅");

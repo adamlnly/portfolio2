@@ -51,15 +51,31 @@ body{
 }
 
 .close{
-  width:18px;
-  height:18px;
-  background:#cc0000;
-  color:#fff;
-  border:none;
-  border-radius:3px;
-  cursor:pointer;
-  font-size:13px;
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  width: 30px;
+  height: 30px;
+
+  background-color: red;
+  color: white;
+
+  border: none;
+  border-radius: 10%;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: auto;
+  z-index: 3;
 }
+
 
 /* =========================================================
    SCREEN

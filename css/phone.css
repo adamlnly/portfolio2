@@ -1,27 +1,26 @@
 /* =========================================================
-   OVERLAYS
+   OVERLAY TÉLÉPHONE
 ========================================================= */
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 20;
-  display: none;
-  pointer-events: none;
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  display:none;
+  pointer-events:none;
 }
 
-.overlay.active {
-  display: block;
+.overlay.active{
+  display:block;
 }
 
-.overlay .window,
-.overlay .phone-window {
-  position: absolute;
-  z-index: 21;
-  pointer-events: auto;
+.overlay .phone-window{
+  position:absolute;
+  z-index:21;
+  pointer-events:auto;
 }
 
 /* =========================================================
-   PHONE WINDOW
+   FENÊTRE TÉLÉPHONE
 ========================================================= */
 .phone-window{
   position:absolute;
@@ -35,7 +34,7 @@
 }
 
 /* =========================================================
-   BAR
+   BARRE SUPÉRIEURE
 ========================================================= */
 .phone-bar{
   height:32px;
@@ -49,19 +48,31 @@
   user-select:none;
 }
 
+/* =========================================================
+   BOUTON FERMER
+========================================================= */
 .phone-close{
-  background:#900;
-  border:none;
+  position:absolute;
+  top:0;
+  right:6px;
+  width:30px;
+  height:30px;
+  background:red;
   color:#fff;
-  width:20px;
-  height:20px;
-  cursor:pointer;
+  border:none;
+  border-radius:10%;
+  font-size:18px;
+  font-weight:bold;
   font-family:inherit;
-  font-size:10px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
 }
 
 /* =========================================================
-   SCREEN
+   ÉCRAN INTERNE
 ========================================================= */
 .phone-screen{
   padding:16px;
@@ -77,17 +88,14 @@
 }
 
 /* =========================================================
-   LIGNES
+   MENU
 ========================================================= */
 .phone-line{
   padding:6px 4px;
   cursor:pointer;
 }
 
-/* =========================================================
-   HOVER — DESKTOP UNIQUEMENT
-========================================================= */
-@media (hover: hover) and (pointer: fine){
+@media (hover:hover) and (pointer:fine){
   .phone-line:hover{
     background:#063;
   }
@@ -102,18 +110,8 @@
   color:#7dff6a;
   font-size:10px;
   display:none;
-  cursor:default;
 }
 
-/* ❌ aucun soulignement */
-.phone-detail:hover{
-  color:#fff;
-  text-decoration:none;
-}
-
-/* =========================================================
-   LIENS
-========================================================= */
 .phone-detail a{
   color:#7dff6a;
   text-decoration:none;
@@ -121,22 +119,25 @@
 
 .phone-detail a:hover{
   color:#fff;
-  text-decoration:none;
 }
 
 /* =========================================================
-   DÉSACTIVER SÉLECTION TEXTE
+   SÉLECTION TEXTE (CIBLÉE)
 ========================================================= */
-*{
+.phone-bar,
+.phone-line,
+.phone-close{
   user-select:none;
-  -webkit-user-select:none;
-  -ms-user-select:none;
+}
+
+.phone-detail{
+  user-select:text;
 }
 
 /* =========================================================
-   📱 MOBILE
+   📱 MOBILE + TABLETTE (≤1024)
 ========================================================= */
-@media (max-width: 768px){
+@media (max-width:1024px){
 
   .phone-window{
     width:92vw;
@@ -149,7 +150,6 @@
 
   .phone-screen{
     overflow-y:auto;
-    overflow-x:hidden;
     padding:18px;
     font-size:14px;
     line-height:1.8;
@@ -179,7 +179,7 @@
 }
 
 /* =========================================================
-   📱 MOBILE FIRST
+   VISIBILITÉ MOBILE ONLY
 ========================================================= */
 .phone-only{
   display:block;
@@ -188,7 +188,7 @@
 /* =========================================================
    🖥 DESKTOP
 ========================================================= */
-@media (min-width: 769px){
+@media (min-width:1025px){
 
   .phone-skills,
   .phone-testimonials{

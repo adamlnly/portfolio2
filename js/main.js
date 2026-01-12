@@ -1,3 +1,13 @@
+/*
+  NOTE :
+  Le calcul du scale de la scène, le positionnement
+  dynamique des hotspots selon la taille de l’écran
+  et la gestion des changements de taille/orientation
+  étaient très complexes pour moi.
+  Je me suis aidé de l’IA pour générer cette structure,
+  puis je l’ai comprise et adaptée à mon projet.
+*/
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const IMG_W = 1920;
@@ -14,9 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const quote = document.getElementById("quote");
   const words = document.querySelectorAll(".quote span");
 
-  // 🔔 notification
   const welcomeOverlay = document.getElementById("welcomeOverlay");
   const welcomeClose = document.getElementById("welcomeClose");
+
+  /* ================= TABLET / MOBILE ================= */
+  function isTabletOrMobile() {
+    return window.matchMedia("(max-width:1024px)").matches;
+  }
 
   /* ================= HOTSPOTS SCALE ================= */
   function updateHotspots() {
@@ -40,8 +54,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  window.addEventListener("resize", updateHotspots);
+  /* ================= PANNEAU (DESKTOP ONLY) ================= */
+  function updateSignHotspot() {
+    const signHotspot = document.querySelector(
+      '.hotspot[data-label="Pancarte"]'
+    );
+
+    if (!signHotspot) return;
+
+    if (isTabletOrMobile()) {
+      signHotspot.style.display = "none";
+    } else {
+      signHotspot.style.display = "block";
+    }
+  }
+
+  window.addEventListener("resize", () => {
+    updateHotspots();
+    updateSignHotspot();
+  });
+
   updateHotspots();
+  updateSignHotspot();
 
   /* ================= CURSOR LIGHT ================= */
   document.addEventListener("mousemove", e => {
@@ -72,31 +106,31 @@ document.addEventListener("DOMContentLoaded", () => {
       if (mainLight) mainLight.style.opacity = 1;
       if (bgDay) bgDay.style.opacity = 1;
 
-      // active la lumière (hotspots + notif via CSS)
       document.body.classList.add("light-on");
 
-      // 🔔 affiche la notification
       if (welcomeOverlay) {
         welcomeOverlay.style.display = "block";
       }
     });
   }
 
-  /* ================= CROIX NOTIFICATION ================= */
+  /* ================= WELCOME CLOSE ================= */
   if (welcomeClose && welcomeOverlay) {
-    welcomeClose.addEventListener("click", (e) => {
+    welcomeClose.addEventListener("click", e => {
       e.stopPropagation();
-      welcomeOverlay.style.display = "none";
+      document.body.classList.add("welcome-hidden");
     });
   }
 
-  /* ================= HOTSPOTS ================= */
+  /* ================= HOTSPOTS ACTIONS ================= */
   hotspots.forEach(h => {
     h.addEventListener("click", () => {
       if (!revealed) return;
 
-      // bloque les hotspots tant que la notif est visible
-      if (welcomeOverlay && welcomeOverlay.style.display === "block") return;
+      if (
+        welcomeOverlay &&
+        !document.body.classList.contains("welcome-hidden")
+      ) return;
 
       if (h.dataset.label === "PC") {
         window.openComputer?.();
@@ -114,14 +148,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-/* =========================================================
-   FORCE REFRESH SI CHANGEMENT DE DEVICE / TAILLE CRITIQUE
-========================================================= */
+
+/* Reload de sécurité en cas de changement critique
+   (orientation / resize important) */
 (function () {
+
   const KEY = "__layout_fixed__";
 
   const isMobileNow = () =>
-    window.matchMedia("(max-width:768px)").matches;
+    window.matchMedia("(max-width:1024px)").matches;
 
   const initialState = {
     mobile: isMobileNow(),
@@ -154,14 +189,5 @@ document.addEventListener("DOMContentLoaded", () => {
     sessionStorage.setItem(KEY, "1");
     location.reload();
   });
+
 })();
-const welcomeClose = document.getElementById("welcomeClose");
-
-if (welcomeClose) {
-  welcomeClose.addEventListener("click", (e) => {
-    e.stopPropagation();
-
-    // cache la notification sans toucher à la lumière
-    document.body.classList.add("welcome-hidden");
-  });
-}

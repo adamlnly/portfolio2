@@ -1,18 +1,24 @@
+/*
+  NOTE :
+  Les calculs de bordures, de dimensions, de positions
+  et le système de déplacement des fenêtres (clamp, drag, viewport)
+  étaient très difficiles pour moi à mettre en place seul.
+  Je me suis donc aidé de l’IA pour générer et comprendre
+  cette partie du code, puis l’adapter à mon projet.
+*/
+
 /* ================= HELPERS: query ================= */
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-/* ================= ELEMENTS (accept id OR class) ================= */
 const win = $("#win") || $(".win");
 const desktop = $("#desktop") || $(".desktop");
 
-/* overlays / loading */
 const fill = $("#fill") || $(".loading-fill");
 const loading = $("#loading") || $(".loading");
 const winBar = $("#winBar") || $(".bar");
 const closeWin = $("#closeWin") || $(".close");
 
-/* viewer */
 const viewer = $("#text-viewer") || $(".text-viewer");
 const textTitle = $("#text-title") || $(".text-title");
 const closeText = $("#close-text") || $(".close-text");
@@ -25,10 +31,9 @@ let isLoading = false;
 let lastFileSourceWindow = null;
 
 function isMobile() {
-  return window.matchMedia("(max-width:768px)").matches;
+  return window.innerWidth <= 1024;
 }
 
-/* ================= CLAMP VIEWPORT ================= */
 function clampToViewport(el, margin = 0) {
   let x = el.offsetLeft;
   let y = el.offsetTop;
@@ -45,7 +50,6 @@ function clampToViewport(el, margin = 0) {
   el.style.top  = y + "px";
 }
 
-/* ================= CLAMP DESKTOP ================= */
 function clampToDesktop(el) {
   if (!desktop) return;
   const W = desktop.clientWidth;
@@ -72,7 +76,6 @@ function centerInViewport(el) {
   clampToViewport(el);
 }
 
-/* ================= VIEWER ================= */
 function closeViewer() {
   if (!viewer) return;
   viewer.style.display = "none";
@@ -127,7 +130,6 @@ function placeViewerNearSource() {
   clampToDesktop(viewer);
 }
 
-/* ================= OPEN COMPUTER ================= */
 function openComputer() {
   $("#computer")?.classList.add("active");
 
@@ -161,7 +163,6 @@ function openComputer() {
 
 window.openComputer = openComputer;
 
-/* ================= CLOSE WIN ================= */
 if (closeWin) {
   closeWin.addEventListener("pointerdown", e => e.stopPropagation());
   closeWin.onclick = e => {
@@ -172,7 +173,6 @@ if (closeWin) {
   };
 }
 
-/* ================= DRAG WIN ================= */
 let dragWin = false, wx = 0, wy = 0;
 
 if (winBar && win) {
@@ -197,7 +197,6 @@ document.addEventListener("pointerup", () => {
   dragWin = false;
 });
 
-/* ================= DRAG FOLDER WINDOWS ================= */
 $$(".folder-window").forEach(w => {
   const bar = $(".folder-bar", w);
   if (!bar) return;
@@ -235,7 +234,6 @@ $$(".folder-window").forEach(w => {
   }
 });
 
-/* ================= ICONS (DRAG + DOUBLE CLICK) ================= */
 $$(".folder").forEach(folder => {
   let drag = false, ox = 0, oy = 0, moved = false;
   let lastUp = 0;
@@ -260,7 +258,6 @@ $$(".folder").forEach(folder => {
   folder.addEventListener("pointerup", () => {
     drag = false;
 
-    // mobile: tap opens
     if (isMobile() && !moved) {
       closeAllFolders();
       closeViewer();
@@ -272,7 +269,6 @@ $$(".folder").forEach(folder => {
       return;
     }
 
-    // desktop: manual double click (because pointer capture breaks dblclick)
     if (!moved) {
       const now = Date.now();
       if (now - lastUp < 300) {
@@ -286,7 +282,6 @@ $$(".folder").forEach(folder => {
   });
 });
 
-/* ================= FILES ================= */
 $$(".file").forEach(file => {
   file.addEventListener("pointerdown", e => e.stopPropagation());
 
@@ -329,7 +324,6 @@ $$(".file").forEach(file => {
   };
 });
 
-/* stop clicks in viewer content from dragging windows etc */
 $$(".text-content").forEach(el => {
   el.addEventListener("pointerdown", e => e.stopPropagation());
 });

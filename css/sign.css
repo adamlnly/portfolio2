@@ -1,228 +1,207 @@
-/* =========================================================
-   OVERLAY (NON MODAL)
-========================================================= */
-#sign {
-  position: fixed;
-  inset: 0;
-  display: none;
-  background: transparent;
-  pointer-events: none;
-  z-index: 9999;
+/* Overlay pancarte */
+#sign{
+  position:fixed;
+  inset:0;
+  display:none;
+  background:transparent;
+  pointer-events:none;
+  z-index:9999;
 }
 
-#sign.active {
-  display: block;
+#sign.active{
+  display:block;
 }
 
-/* =========================================================
-   WINDOW
-========================================================= */
-.sign-window {
-  position: absolute;
-  left: 0;
-  top: 0;
-  cursor: grab;
-  user-select: none;
-  pointer-events: auto;
-  z-index: 1;
-   transform: scale(0.92);           /* ⬅️ RÉDUCTION GLOBALE */
-  transform-origin: top left;       /* ⬅️ IMPORTANT */
+/* Fenêtre pancarte
+   (je me suis aidé de l’IA ici car j’avais beaucoup de mal
+   à gérer correctement le scale + l’origine de transformation) */
+.sign-window{
+  position:absolute;
+  left:0;
+  top:0;
+  cursor:grab;
+  user-select:none;
+  pointer-events:auto;
+  z-index:1;
+  transform:scale(0.92);
+  transform-origin:top left;
 }
 
-.sign-window:active {
-  cursor: grabbing;
+.sign-window:active{
+  cursor:grabbing;
 }
 
-/* =========================================================
-   IMAGE
-========================================================= */
-.sign-window img {
-  display: block;
-  max-width: 85vw;
-  max-height: 85vh;
-  user-select: none;
-  -webkit-user-drag: none;
-  position: relative;
-  z-index: 1;
+/* Image */
+.sign-window img{
+  display:block;
+  max-width:85vw;
+  max-height:85vh;
+  user-select:none;
+  -webkit-user-drag:none;
+  position:relative;
+  z-index:1;
 }
 
-/* =========================================================
-   TITLE
-========================================================= */
-.sign-title {
-  position: absolute;
-  top: 12%;                 /* 🔽 DESCENDU (était 11%) */
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 20px;
-  color: #000;
-  z-index: 2;
+/* Titre principal */
+.sign-title{
+  position:absolute;
+  top:12%;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:20px;
+  color:#000;
+  z-index:2;
+  text-align:center;
+  font-weight:bold;
 }
 
-/* =========================================================
-   TEXT (ZONE SCROLLABLE)
-========================================================= */
-.sign-text {
-  position: absolute;
-  top: 18%;                 /* 🔥 GROS FIX (était 24%) */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 78%;
-  max-height: 52%;          /* un peu plus d’espace */
-  font-size: 16px;
-  line-height: 1.6;         /* 🔽 réduit (était 1.9) */
-  color: #000;
-  white-space: pre-line;
-  overflow-y: auto;
-  pointer-events: auto;
-  user-select: text;
-  z-index: 2;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+/* Zone de texte scrollable
+   (je me suis aidé de l’IA ici car le positionnement
+   + le scroll sans scrollbar visible était compliqué) */
+.sign-text{
+  position:absolute;
+  top:18%;
+  left:50%;
+  transform:translateX(-50%);
+  width:78%;
+  max-height:52%;
+  font-size:16px;
+  line-height:1.6;
+  color:#000;
+  white-space:pre-line;
+  overflow-y:auto;
+  pointer-events:auto;
+  user-select:text;
+  z-index:2;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 
-.sign-text::-webkit-scrollbar {
-  display: none;
+.sign-text::-webkit-scrollbar{
+  display:none;
 }
 
-/* =========================================================
-   SCROLL INDICATOR
-========================================================= */
-.sign-scroll {
-  position: absolute;
-  bottom: 16%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 16px;
-  color: #000;
-  opacity: 1;
-  animation: bounce 1s infinite;
-  pointer-events: none;
-  z-index: 2;
+/* Indicateur de scroll */
+.sign-scroll{
+  position:absolute;
+  bottom:16%;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:16px;
+  color:#000;
+  opacity:1;
+  animation:bounce 1s infinite;
+  pointer-events:none;
+  z-index:2;
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translate(-50%, 0); }
-  50% { transform: translate(-50%, 6px); }
+@keyframes bounce{
+  0%,100%{ transform:translate(-50%,0); }
+  50%{ transform:translate(-50%,6px); }
 }
 
-/* =========================================================
-   CLOSE BUTTON
-========================================================= */
-.sign-close {
-  position: absolute;
-  top: 6%;
-  right: 6%;
-  width: 30px;
-  height: 30px;
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 10%;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: auto;
-  z-index: 3;
+/* Bouton fermer */
+.sign-close{
+  position:absolute;
+  top:6%;
+  right:6%;
+  width:30px;
+  height:30px;
+  background-color:red;
+  color:white;
+  border:none;
+  border-radius:10%;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+  z-index:3;
 }
 
-/* =========================================================
-   BLOC TÉMOIGNAGE (GRAND & LISIBLE)
-========================================================= */
+/* Bloc témoignage
+   (je me suis aidé de l’IA ici car l’alignement
+   et la lisibilité du contenu étaient difficiles à équilibrer) */
 .testimonial-box{
-  margin-top: 20px;          /* 🔽 réduit (était 32px) */
-  padding: 24px;
-  background: rgba(0,0,0,0.35);
-  border: 3px solid #888;
-  display: flex;
-  align-items: center;
-  gap: 24px;
+  margin-top:20px;
+  padding:24px;
+  background:rgba(0,0,0,0.35);
+  border:3px solid #888;
+  display:flex;
+  align-items:center;
+  gap:24px;
 }
 
-/* contenu */
 .testimonial-content{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;                /* légèrement resserré */
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
 
-/* prénom */
 .testi-name{
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
+  font-size:18px;
+  font-weight:bold;
+  color:#fff;
 }
 
-/* texte témoignage */
 .testi-text{
-  font-size: 16px;
-  line-height: 1.5;
-  color: #eee;
+  font-size:16px;
+  line-height:1.5;
+  color:#eee;
 }
 
-/* =========================================================
-   BOUTONS NAVIGATION
-========================================================= */
+/* Navigation témoignages */
 .testi-nav{
-  background: #222;
-  color: #fff;
-  border: none;
-  width: 36px;
-  height: 36px;
-  font-size: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background:#222;
+  color:#fff;
+  border:none;
+  width:36px;
+  height:36px;
+  font-size:22px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 .testi-nav:hover{
-  background: #444;
-}
-/* ================= TITRES PANNEAU ================= */
-
-/* Titre principal (déjà utilisé en haut) */
-.sign-title{
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
+  background:#444;
 }
 
-/* Titres de section (si tu en ajoutes plus tard) */
+/* Titres secondaires */
 .sign-section-title{
-  text-align: center;
-  font-size: 18px;
-  margin: 24px 0 12px;
-  font-weight: bold;
+  text-align:center;
+  font-size:18px;
+  margin:24px 0 12px;
+  font-weight:bold;
 }
 
-/* Paragraphes */
 .sign-paragraph{
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 18px;
-}
-/* animation texte */
-#signTextContent {
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  font-size:16px;
+  line-height:1.6;
+  margin-bottom:18px;
 }
 
-#signTextContent.show {
-  opacity: 1;
-  transform: translateY(0);
+/* Animation texte */
+#signTextContent{
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* titres centrés propres */
-.sign-center-title {
-  text-align: center;
-  font-weight: bold;
-  margin: 28px 0 14px;
-  font-size: 18px;
-  letter-spacing: 1px;
+#signTextContent.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Titres centrés */
+.sign-center-title{
+  text-align:center;
+  font-weight:bold;
+  margin:28px 0 14px;
+  font-size:18px;
+  letter-spacing:1px;
 }

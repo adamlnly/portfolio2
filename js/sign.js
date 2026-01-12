@@ -1,11 +1,18 @@
-/* ========= ELEMENTS ========= */
+/*
+  NOTE :
+  J’ai choisi de gérer le contenu texte de la pancarte directement en JavaScript.
+  À l’origine, j’avais mis en place un effet où le texte apparaissait de manière
+  manuscrite, progressivement, mais cet effet provoquait trop de bugs
+  (problèmes d’affichage, de timing et de performances).
+  J’ai donc décidé de conserver une version plus stable et fiable.
+*/
+
 const sign      = document.getElementById("sign");
 const windowEl  = document.getElementById("signWindow");
 const textEl    = document.getElementById("signTextContent");
 const closeBtn  = document.getElementById("signClose");
 const carousel  = document.querySelector(".testimonial-box");
 
-/* ========= CLAMP ========= */
 function clampToViewport(el, margin = 0) {
   el.style.left = Math.min(
     Math.max(el.offsetLeft, margin),
@@ -18,7 +25,6 @@ function clampToViewport(el, margin = 0) {
   ) + "px";
 }
 
-/* ========= TEXTE ========= */
 const fullText = `
 <div class="sign-center-title">À PROPOS DE MOI</div>
 
@@ -55,8 +61,6 @@ Création numérique
 <div class="sign-center-title">TÉMOIGNAGES</div>
 `;
 
-
-/* ========= OPEN ========= */
 function openSign() {
   sign.classList.add("active");
 
@@ -65,20 +69,16 @@ function openSign() {
 
   clampToViewport(windowEl);
 
-  // cacher carrousel pendant chargement
   carousel.style.opacity = "0";
   carousel.style.pointerEvents = "none";
 
-  // reset texte
   textEl.innerHTML = "";
   textEl.classList.remove("show");
 
-  // insertion quasi instantanée
   requestAnimationFrame(() => {
     textEl.innerHTML = fullText;
     textEl.classList.add("show");
 
-    // afficher carrousel après animation
     setTimeout(() => {
       carousel.style.opacity = "1";
       carousel.style.pointerEvents = "auto";
@@ -96,7 +96,6 @@ function closeSign() {
 closeBtn.onclick = closeSign;
 window.openSign = openSign;
 
-/* ========= DRAG ========= */
 let drag = false, dx = 0, dy = 0;
 
 windowEl.addEventListener("mousedown", e => {
@@ -114,12 +113,23 @@ document.addEventListener("mousemove", e => {
 
 document.addEventListener("mouseup", () => drag = false);
 
-/* ========= TÉMOIGNAGES ========= */
 const testimonials = [
-  { name: "Mohammed",  text: "Adam a travaillé en tant qu’intérimaire et s’est montré réactif et sérieux sur les missions qui lui étaient confiées. Toujours de bonne humeur et avec un bon esprit d’équipe, c’était très agréable de travailler avec lui." },
-  { name: "Lucas", text: "Adam a travaillé pendant deux mois en tant qu’intérimaire et a fait un travail sérieux et efficace. Même quand certaines missions étaient compliquées, il a su bien les gérer. Son implication a été très appréciée." },
-  { name: "Sabrina", text: "Adam a travaillé avec nous pendant deux mois et a vraiment bien taffé. Même quand certaines missions étaient un peu compliquées, il a su gérer sans problème. Sérieux, efficace et agréable au quotidien, c’était cool de bosser avec lui." },
-  { name: "Paul", text: "J’ai travaillé avec Adam sur pendant plusieurs projets. Il était sérieux et impliqué, et même quand les tâches étaient compliquées, il a su gérer. C’était agréable de travailler avec lui." }
+  {
+    name: "Mohammed",
+    text: "Adam a travaillé en tant qu’intérimaire et s’est montré réactif et sérieux sur les missions qui lui étaient confiées. Toujours de bonne humeur et avec un bon esprit d’équipe, c’était très agréable de travailler avec lui."
+  },
+  {
+    name: "Lucas",
+    text: "Adam a travaillé pendant deux mois en tant qu’intérimaire et a fait un travail sérieux et efficace. Même quand certaines missions étaient compliquées, il a su bien les gérer. Son implication a été très appréciée."
+  },
+  {
+    name: "Sabrina",
+    text: "Adam a travaillé avec nous pendant deux mois et a vraiment bien travaillé. Même quand certaines missions étaient un peu compliquées, il a su gérer sans problème. Sérieux, efficace et agréable au quotidien."
+  },
+  {
+    name: "Paul",
+    text: "J’ai travaillé avec Adam sur plusieurs projets. Il était sérieux et impliqué, et même quand les tâches étaient compliquées, il a su gérer. C’était agréable de travailler avec lui."
+  }
 ];
 
 const testiNameEl = document.getElementById("testiName");
